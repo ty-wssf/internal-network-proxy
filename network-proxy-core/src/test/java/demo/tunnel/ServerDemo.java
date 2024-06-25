@@ -1,4 +1,4 @@
-package demo;
+package demo.tunnel;
 
 import io.wyl.network.InternalNetworkProxy;
 import io.wyl.network.tunnel.server.TunnelServer;

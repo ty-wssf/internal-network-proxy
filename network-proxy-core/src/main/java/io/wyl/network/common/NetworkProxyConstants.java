@@ -11,4 +11,9 @@ public interface NetworkProxyConstants {
      */
     long SERVER_STREAM_TIMEOUT_DEFAULT = 60 * 1000 * 5;
 
+    /**
+     * 读取代理服务数据主题
+     */
+    String PROXY_READ = "proxy.read";
+
 }
