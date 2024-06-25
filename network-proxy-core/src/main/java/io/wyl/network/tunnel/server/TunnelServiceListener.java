@@ -45,4 +45,8 @@ public class TunnelServiceListener extends EventListener {
         brokerListener.onClose(session);
     }
 
+    public TunnelServer addPortMapping(PortMapping portMapping) {
+        return null;
+    }
+
 }

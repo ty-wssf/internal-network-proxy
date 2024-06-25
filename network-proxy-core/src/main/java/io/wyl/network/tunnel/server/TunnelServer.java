@@ -25,4 +25,9 @@ public interface TunnelServer {
      */
     void stop();
 
+    /**
+     * 添加本地服务端口和代理局域网信息的映射关系
+     */
+    TunnelServer addPortMapping(PortMapping portMapping);
+
 }

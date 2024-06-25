@@ -1,9 +1,10 @@
 package io.wyl.network.tunnel.client;
 
 import org.noear.socketd.SocketD;
-import org.noear.socketd.cluster.ClusterClientSession;
 import org.noear.socketd.transport.client.ClientConfigHandler;
 import org.noear.socketd.transport.client.ClientSession;
+import org.noear.socketd.transport.core.Asserts;
+import org.noear.socketd.utils.StrUtils;
 
 import java.io.IOException;
 
@@ -21,6 +22,8 @@ public class TunnelClientDefault implements TunnelClient {
     private final TunnelClientListener clientListener;
     //客户端配置
     private ClientConfigHandler clientConfigHandler;
+    //客户端名字
+    private String name;
 
     public TunnelClientDefault(String url) {
         this.url = url;
@@ -29,7 +32,15 @@ public class TunnelClientDefault implements TunnelClient {
 
     @Override
     public TunnelClient connect() throws IOException {
-        clientSession = SocketD.createClient(url)
+        String url_ = url;
+        if (StrUtils.isNotEmpty(name)) {
+            if (url.contains("?")) {
+                url_ = url + "&@=" + name;
+            } else {
+                url_ = url + "?@=" + name;
+            }
+        }
+        clientSession = SocketD.createClient(url_)
                 .config(c -> {
                     if (clientConfigHandler != null) {
                         clientConfigHandler.clientConfig(c);
@@ -48,6 +59,14 @@ public class TunnelClientDefault implements TunnelClient {
     @Override
     public TunnelClient config(ClientConfigHandler configHandler) {
         this.clientConfigHandler = configHandler;
+        return this;
+    }
+
+    @Override
+    public TunnelClient nameAs(String name) {
+        Asserts.assertNull("name", name);
+
+        this.name = name;
         return this;
     }
 

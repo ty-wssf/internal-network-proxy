@@ -25,4 +25,9 @@ public interface TunnelClient {
      */
     TunnelClient config(ClientConfigHandler configHandler);
 
+    /**
+     * 名字取为（即，客户端组）
+     */
+    TunnelClient nameAs(String name);
+
 }

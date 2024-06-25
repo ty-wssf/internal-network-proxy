@@ -61,4 +61,9 @@ public class TunnelServerDefault implements TunnelServer {
         server.stop();
     }
 
+    @Override
+    public TunnelServer addPortMapping(PortMapping portMapping) {
+        return serverListener.addPortMapping(portMapping);
+    }
+
 }
