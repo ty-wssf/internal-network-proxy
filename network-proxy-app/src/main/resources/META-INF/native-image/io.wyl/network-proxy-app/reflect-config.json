@@ -18754,6 +18754,10 @@
         "parameterTypes": []
       },
       {
+        "name": "cloneInstance",
+        "parameterTypes": []
+      },
+      {
         "name": "contains",
         "parameterTypes": [
           "java.lang.Object"
@@ -26850,6 +26854,119 @@
     "fields": [],
     "methods": [
       {
+        "name": "delete",
+        "parameterTypes": []
+      },
+      {
+        "name": "exists",
+        "parameterTypes": []
+      },
+      {
+        "name": "getExternalPath",
+        "parameterTypes": []
+      },
+      {
+        "name": "getInputStream",
+        "parameterTypes": []
+      },
+      {
+        "name": "getOutputStream",
+        "parameterTypes": []
+      },
+      {
+        "name": "getOutputStream",
+        "parameterTypes": [
+          "boolean"
+        ]
+      },
+      {
+        "name": "getResource",
+        "parameterTypes": []
+      },
+      {
+        "name": "getResourceRegion",
+        "parameterTypes": [
+          "io.nop.api.core.beans.LongRangeBean"
+        ]
+      },
+      {
+        "name": "internalObj",
+        "parameterTypes": []
+      },
+      {
+        "name": "isReadOnly",
+        "parameterTypes": []
+      },
+      {
+        "name": "lastModified",
+        "parameterTypes": []
+      },
+      {
+        "name": "length",
+        "parameterTypes": []
+      },
+      {
+        "name": "saveToFile",
+        "parameterTypes": [
+          "java.io.File"
+        ]
+      },
+      {
+        "name": "saveToResource",
+        "parameterTypes": [
+          "io.nop.core.resource.IResource"
+        ]
+      },
+      {
+        "name": "saveToResource",
+        "parameterTypes": [
+          "io.nop.core.resource.IResource",
+          "io.nop.api.core.util.progress.IStepProgressListener"
+        ]
+      },
+      {
+        "name": "setLastModified",
+        "parameterTypes": [
+          "long"
+        ]
+      },
+      {
+        "name": "toFile",
+        "parameterTypes": []
+      },
+      {
+        "name": "toString",
+        "parameterTypes": []
+      },
+      {
+        "name": "toURL",
+        "parameterTypes": []
+      },
+      {
+        "name": "writeToStream",
+        "parameterTypes": [
+          "java.io.OutputStream"
+        ]
+      },
+      {
+        "name": "writeToStream",
+        "parameterTypes": [
+          "java.io.OutputStream",
+          "io.nop.api.core.util.progress.IStepProgressListener"
+        ]
+      }
+    ],
+    "name": "io.nop.core.resource.impl.DelegateResource",
+    "unsafeAllocated": false
+  },
+  {
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
+    "fields": [],
+    "methods": [
+      {
         "name": "buildPath",
         "parameterTypes": [
           "java.io.File"
@@ -26959,6 +27076,45 @@
       }
     ],
     "name": "io.nop.core.resource.impl.FileResource",
+    "unsafeAllocated": false
+  },
+  {
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
+    "fields": [],
+    "methods": [
+      {
+        "name": "exists",
+        "parameterTypes": []
+      },
+      {
+        "name": "getExternalPath",
+        "parameterTypes": []
+      },
+      {
+        "name": "getInputStream",
+        "parameterTypes": []
+      },
+      {
+        "name": "internalObj",
+        "parameterTypes": []
+      },
+      {
+        "name": "toFile",
+        "parameterTypes": []
+      },
+      {
+        "name": "toString",
+        "parameterTypes": []
+      },
+      {
+        "name": "toURL",
+        "parameterTypes": []
+      }
+    ],
+    "name": "io.nop.core.resource.impl.URLResource",
     "unsafeAllocated": false
   },
   {
@@ -84387,6 +84543,286 @@
     "fields": [],
     "methods": [],
     "name": "java.util.TreeMap$Values",
+    "unsafeAllocated": false
+  },
+  {
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
+    "fields": [],
+    "methods": [],
+    "name": "network.proxy.dao.entity.PortMapping",
+    "unsafeAllocated": false
+  },
+  {
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
+    "fields": [
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PK_PROP_IDS"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PK_PROP_NAMES"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_addTime"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_clientIp"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_clientPort"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_deleted"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_enabled"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_id"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_protocol"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_serverPort"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_updateTime"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_addTime"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_clientIp"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_clientPort"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_deleted"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_enabled"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_id"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_protocol"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_serverPort"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_updateTime"
+      }
+    ],
+    "methods": [
+      {
+        "name": "cloneInstance",
+        "parameterTypes": []
+      },
+      {
+        "name": "getAddTime",
+        "parameterTypes": []
+      },
+      {
+        "name": "getClientIp",
+        "parameterTypes": []
+      },
+      {
+        "name": "getClientPort",
+        "parameterTypes": []
+      },
+      {
+        "name": "getDeleted",
+        "parameterTypes": []
+      },
+      {
+        "name": "getEnabled",
+        "parameterTypes": []
+      },
+      {
+        "name": "getId",
+        "parameterTypes": []
+      },
+      {
+        "name": "getProtocol",
+        "parameterTypes": []
+      },
+      {
+        "name": "getServerPort",
+        "parameterTypes": []
+      },
+      {
+        "name": "getUpdateTime",
+        "parameterTypes": []
+      },
+      {
+        "name": "newInstance",
+        "parameterTypes": []
+      },
+      {
+        "name": "orm_entityName",
+        "parameterTypes": []
+      },
+      {
+        "name": "orm_id",
+        "parameterTypes": []
+      },
+      {
+        "name": "orm_internalSet",
+        "parameterTypes": [
+          "int",
+          "java.lang.Object"
+        ]
+      },
+      {
+        "name": "orm_isPrimary",
+        "parameterTypes": [
+          "int"
+        ]
+      },
+      {
+        "name": "orm_propId",
+        "parameterTypes": [
+          "java.lang.String"
+        ]
+      },
+      {
+        "name": "orm_propIdBound",
+        "parameterTypes": []
+      },
+      {
+        "name": "orm_propName",
+        "parameterTypes": [
+          "int"
+        ]
+      },
+      {
+        "name": "orm_propValue",
+        "parameterTypes": [
+          "int"
+        ]
+      },
+      {
+        "name": "orm_propValue",
+        "parameterTypes": [
+          "int",
+          "java.lang.Object"
+        ]
+      },
+      {
+        "name": "setAddTime",
+        "parameterTypes": [
+          "java.time.LocalDateTime"
+        ]
+      },
+      {
+        "name": "setClientIp",
+        "parameterTypes": [
+          "java.lang.String"
+        ]
+      },
+      {
+        "name": "setClientPort",
+        "parameterTypes": [
+          "java.lang.Integer"
+        ]
+      },
+      {
+        "name": "setDeleted",
+        "parameterTypes": [
+          "java.lang.Boolean"
+        ]
+      },
+      {
+        "name": "setEnabled",
+        "parameterTypes": [
+          "java.lang.Boolean"
+        ]
+      },
+      {
+        "name": "setId",
+        "parameterTypes": [
+          "java.lang.Integer"
+        ]
+      },
+      {
+        "name": "setProtocol",
+        "parameterTypes": [
+          "java.lang.String"
+        ]
+      },
+      {
+        "name": "setServerPort",
+        "parameterTypes": [
+          "java.lang.String"
+        ]
+      },
+      {
+        "name": "setUpdateTime",
+        "parameterTypes": [
+          "java.time.LocalDateTime"
+        ]
+      }
+    ],
+    "name": "network.proxy.dao.entity._gen._PortMapping",
+    "unsafeAllocated": false
+  },
+  {
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
+    "fields": [],
+    "methods": [],
+    "name": "network.proxy.service.entity.PortMappingBizModel",
     "unsafeAllocated": false
   }
 ]
