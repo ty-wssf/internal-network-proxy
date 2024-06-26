@@ -1,0 +1,15 @@
+entity:
+  label:
+    PortMapping: null
+prop:
+  label:
+    PortMapping:
+      id: null
+      serverPort: null
+      protocol: null
+      clientIp: null
+      clientPort: null
+      enabled: null
+      addTime: null
+      updateTime: null
+      deleted: null

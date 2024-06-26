@@ -1,0 +1,15 @@
+entity:
+  label:
+    PortMapping: 端口映射表
+prop:
+  label:
+    PortMapping:
+      addTime: 创建时间
+      clientIp: 客户端IP
+      clientPort: 客户端端口
+      deleted: 逻辑删除
+      enabled: 是否启动
+      id: Id
+      protocol: 协议
+      serverPort: 服务端端口
+      updateTime: 更新时间
