@@ -1,0 +1,17 @@
+
+CREATE TABLE port_mapping(
+  ID INTEGER NOT NULL    COMMENT 'Id',
+  SERVER_PORT VARCHAR(63) NOT NULL    COMMENT '服务端端口',
+  PROTOCOL VARCHAR(255) NOT NULL    COMMENT '协议',
+  CLIENT_IP VARCHAR(255) NOT NULL    COMMENT '客户端IP',
+  CLIENT_PORT INTEGER NULL    COMMENT '客户端端口',
+  ENABLED BOOLEAN NULL    COMMENT '是否启动',
+  ADD_TIME DATETIME NULL    COMMENT '创建时间',
+  UPDATE_TIME DATETIME NULL    COMMENT '更新时间',
+  DELETED BOOLEAN NULL    COMMENT '逻辑删除',
+  constraint PK_port_mapping primary key (ID)
+);
+
+
+   ALTER TABLE port_mapping COMMENT '端口映射表';
+                

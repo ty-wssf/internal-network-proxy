@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<orm ext:mavenArtifactId="network-proxy" ext:entityPackageName="network.proxy.dao.entity" ext:registerShortName="true"
+     ext:allowIdAsColName="true" ext:mavenGroupId="io.wyl" ext:basePackageName="network.proxy"
+     ext:appName="network-proxy" ext:platformVersion="2.0.0-SNAPSHOT" ext:dialect="mysql,oracle,postgresql"
+     ext:mavenVersion="1.0.0" x:schema="/nop/schema/orm/orm.xdef" xmlns:x="/nop/schema/xdsl.xdef"
+     xmlns:i18n-en="i18n-en" xmlns:ref-i18n-en="ref-i18n-en" xmlns:ext="ext" xmlns:orm-gen="orm-gen" xmlns:xpl="xpl"
+     xmlns:ui="ui">
+
+    <x:post-extends x:override="replace">
+        <orm-gen:DefaultPostExtends xpl:lib="/nop/orm/xlib/orm-gen.xlib"/>
+    </x:post-extends>
+
+    <domains>
+        <domain name="userName" precision="50" stdSqlType="VARCHAR"/>
+        <domain name="email" precision="100" stdSqlType="VARCHAR"/>
+        <domain name="phone" precision="100" stdSqlType="VARCHAR"/>
+        <domain name="roleId" precision="100" stdSqlType="VARCHAR"/>
+        <domain name="userId" precision="50" stdSqlType="VARCHAR"/>
+        <domain name="deptId" precision="50" stdSqlType="VARCHAR"/>
+        <domain name="boolFlag" stdSqlType="TINYINT"/>
+        <domain name="json-1000" precision="1000" stdDomain="json" stdSqlType="VARCHAR"/>
+        <domain name="remark" precision="1000" stdSqlType="VARCHAR"/>
+        <domain name="version" stdSqlType="INTEGER"/>
+        <domain name="createTime" stdSqlType="DATETIME"/>
+        <domain name="createdBy" precision="50" stdSqlType="VARCHAR"/>
+        <domain name="updateTime" stdSqlType="DATETIME"/>
+        <domain name="updatedBy" precision="50" stdSqlType="VARCHAR"/>
+        <domain name="delFlag" stdSqlType="BOOLEAN"/>
+        <domain name="html-64k" precision="65535" stdSqlType="VARCHAR"/>
+        <domain name="image" precision="255" stdDomain="file" stdSqlType="VARCHAR"/>
+        <domain name="images" precision="1023" stdDomain="file-list" stdSqlType="VARCHAR"/>
+        <domain name="string-array" precision="1023" stdDomain="json" stdSqlType="VARCHAR"/>
+    </domains>
+
+    <entities>
+        <entity className="network.proxy.dao.entity.PortMapping" createTimeProp="addTime" deleteFlagProp="deleted"
+                displayName="端口映射表" name="network.proxy.dao.entity.PortMapping" registerShortName="true"
+                tableName="port_mapping" updateTimeProp="updateTime" useLogicalDelete="true">
+            <columns>
+                <column code="ID" displayName="Id" mandatory="true" name="id" primary="true" propId="1"
+                        stdDataType="int" stdSqlType="INTEGER" tagSet="seq" ui:show="R"/>
+                <column code="SERVER_PORT" displayName="服务端端口" mandatory="true" name="serverPort" precision="63"
+                        propId="2" stdDataType="string" stdSqlType="VARCHAR"/>
+                <column code="PROTOCOL" displayName="协议" mandatory="true" name="protocol" precision="255" propId="3"
+                        stdDataType="string" stdSqlType="VARCHAR"/>
+                <column code="CLIENT_IP" displayName="客户端IP" mandatory="true" name="clientIp" precision="255" propId="4"
+                        stdDataType="string" stdSqlType="VARCHAR"/>
+                <column code="CLIENT_PORT" displayName="客户端端口" name="clientPort" propId="5" stdDataType="int"
+                        stdSqlType="INTEGER"/>
+                <column code="ENABLED" displayName="是否启动" name="enabled" propId="9" stdDataType="boolean"
+                        stdSqlType="BOOLEAN"/>
+                <column code="ADD_TIME" displayName="创建时间" domain="createTime" name="addTime" propId="10"
+                        stdDataType="datetime" stdSqlType="DATETIME" ui:show="X"/>
+                <column code="UPDATE_TIME" displayName="更新时间" domain="updateTime" name="updateTime" propId="11"
+                        stdDataType="datetime" stdSqlType="DATETIME" ui:show="X"/>
+                <column code="DELETED" displayName="逻辑删除" domain="delFlag" name="deleted" propId="12"
+                        stdDataType="boolean" stdSqlType="BOOLEAN" ui:show="X"/>
+            </columns>
+        </entity>
+    </entities>
+</orm>
