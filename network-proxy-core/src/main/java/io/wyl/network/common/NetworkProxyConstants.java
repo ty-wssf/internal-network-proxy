@@ -14,6 +14,8 @@ public interface NetworkProxyConstants {
     /**
      * 读取代理服务数据主题
      */
-    String PROXY_READ = "proxy.read";
+    String PROXY_SERVER_READ = "proxy.server.read";
+
+    String PROXY_SERVER_CONNECT = "proxy.server.connect";
 
 }

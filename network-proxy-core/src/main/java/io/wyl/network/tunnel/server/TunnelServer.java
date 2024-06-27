@@ -2,6 +2,8 @@ package io.wyl.network.tunnel.server;
 
 import org.noear.socketd.transport.server.ServerConfigHandler;
 
+import java.io.IOException;
+
 /**
  * 网络隧道服务
  *
@@ -28,6 +30,6 @@ public interface TunnelServer {
     /**
      * 添加本地服务端口和代理局域网信息的映射关系
      */
-    TunnelServer addPortMapping(PortMapping portMapping);
+    TunnelServer addPortMapping(PortMapping portMapping) throws IOException;
 
 }

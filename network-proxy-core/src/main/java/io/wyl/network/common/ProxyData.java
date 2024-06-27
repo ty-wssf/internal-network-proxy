@@ -8,15 +8,22 @@ public class ProxyData {
 
     private String visitorId;
 
+    private Integer port;
+
     private byte[] data;
 
-    public ProxyData(String visitorId, byte[] data) {
+
+    public ProxyData(String visitorId, Integer port, byte[] data) {
         this.visitorId = visitorId;
         this.data = data;
     }
 
     public String getVisitorId() {
         return visitorId;
+    }
+
+    public Integer getPort() {
+        return port;
     }
 
     public byte[] getData() {

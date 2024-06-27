@@ -1,12 +1,14 @@
 package io.wyl.network.proxy.tcp;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelInitializer;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.wyl.network.common.NetworkProxyConstants;
+import io.wyl.network.common.ProxyData;
+import org.noear.dami.Dami;
 import org.noear.socketd.exception.SocketDConnectionException;
 import org.noear.socketd.transport.client.ClientConnectorBase;
 import org.noear.socketd.transport.core.ChannelInternal;
@@ -43,8 +45,20 @@ public class ProxyTcpNioClientConnector extends ClientConnectorBase<ProxyTcpNioC
 
             ChannelHandler handler = new ChannelInitializer<SocketChannel>() {
                 @Override
-                protected void initChannel(SocketChannel socketChannel) throws Exception {
+                protected void initChannel(SocketChannel channel) throws Exception {
+                    channel.pipeline()
+                            .addLast(new SimpleChannelInboundHandler<ByteBuf>() {
+                                // 添加处理器
+                                @Override
+                                protected void channelRead0(ChannelHandlerContext context, ByteBuf byteBuf) throws Exception {
+                                    // 创建一个与ByteBuf长度相等的byte数组
+                                    byte[] byteArray = new byte[byteBuf.readableBytes()];
 
+                                    // 将ByteBuf的内容读取到byte数组中
+                                    byteBuf.readBytes(byteArray);
+                                    // Dami.bus().send(NetworkProxyConstants.PROXY_READ, new ProxyData(context.channel().id().asShortText(), byteArray));
+                                }
+                            });
                 }
             };
 

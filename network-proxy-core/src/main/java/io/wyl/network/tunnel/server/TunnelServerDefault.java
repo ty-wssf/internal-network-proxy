@@ -5,6 +5,8 @@ import org.noear.socketd.SocketD;
 import org.noear.socketd.transport.server.Server;
 import org.noear.socketd.transport.server.ServerConfigHandler;
 
+import java.io.IOException;
+
 /**
  * @author wyl
  * @date 2024年06月24日 21:20
@@ -62,8 +64,9 @@ public class TunnelServerDefault implements TunnelServer {
     }
 
     @Override
-    public TunnelServer addPortMapping(PortMapping portMapping) {
-        return serverListener.addPortMapping(portMapping);
+    public TunnelServer addPortMapping(PortMapping portMapping) throws IOException {
+        serverListener.addPortMapping(portMapping);
+        return this;
     }
 
 }

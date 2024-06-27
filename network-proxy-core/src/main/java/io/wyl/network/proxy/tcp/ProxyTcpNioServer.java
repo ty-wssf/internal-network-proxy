@@ -22,6 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.util.function.Consumer;
 
 /**
  * @author wyl
@@ -79,17 +81,51 @@ public class ProxyTcpNioServer implements Server {
                 protected void initChannel(SocketChannel channel) throws Exception {
                     channel.pipeline()
                             .addLast(new SimpleChannelInboundHandler<ByteBuf>() {
+
+                                @Override
+                                public void channelActive(ChannelHandlerContext ctx) throws Exception {
+                                    InetSocketAddress sa = (InetSocketAddress) ctx.channel().localAddress();
+                                    ctx.fireChannelActive();
+                                    ctx.channel().config().setOption(ChannelOption.AUTO_READ, false);
+                                    Dami.<ProxyData, Boolean>bus().sendAndSubscribe(NetworkProxyConstants.PROXY_SERVER_CONNECT, new ProxyData(ctx.channel().id().asShortText(), sa.getPort(), null), new Consumer<Boolean>() {
+                                        @Override
+                                        public void accept(Boolean reply) {
+                                            // 成功，设置可读
+                                            // 失败断开连接
+                                            if (reply) {
+                                                ctx.channel().config().setOption(ChannelOption.AUTO_READ, true);
+                                                log.info("访问者 {} 连接成功", ctx.channel().id().asShortText());
+                                            } else {
+                                                ctx.close();
+                                                log.info("访问者 {} 连接失败", ctx.channel().id().asShortText());
+                                            }
+                                        }
+                                    });
+                                }
+
                                 // 添加处理器
                                 @Override
-                                protected void channelRead0(ChannelHandlerContext context, ByteBuf byteBuf) throws Exception {
+                                protected void channelRead0(ChannelHandlerContext ctx, ByteBuf byteBuf) throws Exception {
+                                    InetSocketAddress sa = (InetSocketAddress) ctx.channel().localAddress();
+
                                     // 创建一个与ByteBuf长度相等的byte数组
                                     byte[] byteArray = new byte[byteBuf.readableBytes()];
 
                                     // 将ByteBuf的内容读取到byte数组中
                                     byteBuf.readBytes(byteArray);
-                                    Dami.bus().send(NetworkProxyConstants.PROXY_READ, new ProxyData(context.channel().id().asShortText(), byteArray));
+
+                                    // 通过代理客户端发送到真实的服务端
+                                    Dami.bus().send(NetworkProxyConstants.PROXY_SERVER_READ, new ProxyData(ctx.channel().id().asShortText(), sa.getPort(), byteArray));
+                                }
+
+                                @Override
+                                public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+                                    // 当出现异常就关闭连接
+                                    ctx.close();
+                                    log.error("访问者 error", cause);
                                 }
                             });
+
                 }
             };
 

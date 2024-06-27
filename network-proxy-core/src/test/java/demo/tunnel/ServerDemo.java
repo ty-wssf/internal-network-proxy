@@ -1,6 +1,7 @@
 package demo.tunnel;
 
 import io.wyl.network.InternalNetworkProxy;
+import io.wyl.network.tunnel.server.PortMapping;
 import io.wyl.network.tunnel.server.TunnelServer;
 
 /**
@@ -11,6 +12,7 @@ public class ServerDemo {
 
     public static void main(String[] args) throws Exception {
         TunnelServer tunnelServer = InternalNetworkProxy.createTunnelServer().start(18602);
+        tunnelServer.addPortMapping(new PortMapping("1", 1023, "10.20.10.152", 30007, "tcp"));
     }
 
 

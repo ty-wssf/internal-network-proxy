@@ -26,6 +26,14 @@ public class PortMapping {
      */
     private String protocol;
 
+    public PortMapping(String clientId, Integer serverPort, String clientIp, Integer clientPort, String protocol) {
+        this.clientId = clientId;
+        this.serverPort = serverPort;
+        this.clientIp = clientIp;
+        this.clientPort = clientPort;
+        this.protocol = protocol;
+    }
+
     public String getClientId() {
         return clientId;
     }
