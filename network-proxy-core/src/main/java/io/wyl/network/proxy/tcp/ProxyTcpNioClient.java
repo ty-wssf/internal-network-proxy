@@ -15,12 +15,18 @@ public class ProxyTcpNioClient extends TcpNioClient {
 
     private static final Logger log = LoggerFactory.getLogger(ClientBase.class);
 
+    private String visitorId;
+
     public ProxyTcpNioClient(ClientConfig config) {
         super(config);
     }
 
     protected ClientConnector createConnector() {
         return new ProxyTcpNioClientConnector(this);
+    }
+
+    public String getVisitorId() {
+        return visitorId;
     }
 
     /*@Override

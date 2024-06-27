@@ -12,6 +12,7 @@ import org.noear.dami.Dami;
 import org.noear.socketd.exception.SocketDConnectionException;
 import org.noear.socketd.transport.client.ClientConnectorBase;
 import org.noear.socketd.transport.core.ChannelInternal;
+import org.noear.socketd.transport.core.Entity;
 import org.noear.socketd.transport.core.impl.ChannelDefault;
 import org.noear.socketd.utils.NamedThreadFactory;
 import org.slf4j.Logger;
@@ -56,7 +57,7 @@ public class ProxyTcpNioClientConnector extends ClientConnectorBase<ProxyTcpNioC
 
                                     // 将ByteBuf的内容读取到byte数组中
                                     byteBuf.readBytes(byteArray);
-                                    // Dami.bus().send(NetworkProxyConstants.PROXY_READ, new ProxyData(context.channel().id().asShortText(), byteArray));
+                                    Dami.<Entity, Void>bus().send(NetworkProxyConstants.PROXY_CLIENT_READ, Entity.of(byteArray).metaPut(NetworkProxyConstants.VISITOR_ID, client.getVisitorId()));
                                 }
                             });
                 }

@@ -15,6 +15,7 @@ public class ProxyData {
 
     public ProxyData(String visitorId, Integer port, byte[] data) {
         this.visitorId = visitorId;
+        this.port = port;
         this.data = data;
     }
 

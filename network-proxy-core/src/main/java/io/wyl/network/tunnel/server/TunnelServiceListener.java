@@ -9,9 +9,11 @@ import org.noear.snack.ONode;
 import org.noear.socketd.SocketD;
 import org.noear.socketd.broker.BrokerListener;
 import org.noear.socketd.transport.core.Entity;
+import org.noear.socketd.transport.core.Message;
 import org.noear.socketd.transport.core.Reply;
 import org.noear.socketd.transport.core.Session;
 import org.noear.socketd.transport.core.listener.EventListener;
+import org.noear.socketd.transport.core.listener.MessageHandler;
 import org.noear.socketd.transport.server.Server;
 import org.noear.socketd.utils.IoConsumer;
 
@@ -30,45 +32,73 @@ public class TunnelServiceListener extends EventListener {
     // 客户端端口映射
     private Map<Integer, Server> portMappingServerAll = new ConcurrentHashMap<>();
     private Map<Integer, PortMapping> portMappingAll = new ConcurrentHashMap<>();
+    // 访问者id和对应的回复对象
+    private Map<String, Payload<Entity, Entity>> visitorReplayAll = new ConcurrentHashMap<>();
 
 
     public TunnelServiceListener() {
         // 处理连接请求
-        Dami.<ProxyData, Boolean>bus().listen(NetworkProxyConstants.PROXY_SERVER_CONNECT, new TopicListener<Payload<ProxyData, Boolean>>() {
+        Dami.<Entity, Entity>bus().listen(NetworkProxyConstants.PROXY_SERVER_CONNECT, new TopicListener<Payload<Entity, Entity>>() {
             @Override
-            public void onEvent(Payload<ProxyData, Boolean> payload) throws Throwable {
-                PortMapping portMapping = portMappingAll.get(payload.getContent().getPort());
+            public void onEvent(Payload<Entity, Entity> payload) throws Throwable {
+                PortMapping portMapping = portMappingAll.get(payload.getContent().metaAsInt(NetworkProxyConstants.CLIENT_PORT));
                 // 通过隧道服务发送数据到对应的代理客户端
                 if (portMapping != null) {
-                    brokerListener.getPlayerAny(portMapping.getClientId()).sendAndSubscribe(NetworkProxyConstants.PROXY_SERVER_CONNECT,
-                                    Entity.of(ONode.serialize(payload.getContent())))
-                            .thenReply(new IoConsumer<Reply>() { // 获取到返回结果
-                                @Override
-                                public void accept(Reply reply) throws IOException {
-                                    // 连接成功
-                                    if (reply.metaAsInt("ack") == 1) {
-                                        payload.reply(true);
-                                    } else { // 连接失败
-                                        payload.reply(false);
-                                    }
-                                }
-                            }).thenError(new Consumer<Throwable>() { // 发生医生连接失败
-                                @Override
-                                public void accept(Throwable throwable) {
-                                    payload.reply(false);
-                                }
-                            });
+                    // 获取到返回结果
+                    // 发生医生连接失败
+                    brokerListener.getPlayerAny(portMapping.getClientId()).sendAndSubscribe(NetworkProxyConstants.PROXY_SERVER_CONNECT, payload.getContent()).thenReply(reply -> {
+                        // 连接成功
+                        if (reply.metaAsInt("ack") == 1) {
+                            payload.reply(Entity.of().metaPut(NetworkProxyConstants.REPLY_TYPE, NetworkProxyConstants.PROXY_SERVER_CONNECT).metaPut(NetworkProxyConstants.ACK, "1"));
+                        } else { // 连接失败
+                            payload.reply(Entity.of().metaPut(NetworkProxyConstants.REPLY_TYPE, NetworkProxyConstants.PROXY_SERVER_CONNECT).metaPut(NetworkProxyConstants.ACK, "0"));
+                        }
+                    }).thenError(throwable -> {
+                        payload.reply(Entity.of().metaPut(NetworkProxyConstants.REPLY_TYPE, NetworkProxyConstants.PROXY_SERVER_CONNECT).metaPut(NetworkProxyConstants.ACK, "0"));
+                    });
+                } else {
+                    payload.reply(Entity.of().metaPut(NetworkProxyConstants.REPLY_TYPE, NetworkProxyConstants.PROXY_SERVER_CONNECT).metaPut(NetworkProxyConstants.ACK, "0"));
+                }
+            }
+        });
+
+        // 处理断开连接请求
+        Dami.<Entity, Entity>bus().listen(NetworkProxyConstants.PROXY_SERVER_DISCONNECT, new TopicListener<Payload<Entity, Entity>>() {
+            @Override
+            public void onEvent(Payload<Entity, Entity> payload) throws Throwable {
+                PortMapping portMapping = portMappingAll.get(payload.getContent().metaAsInt(NetworkProxyConstants.PROXY_SERVER_PORT));
+                // 通过隧道服务发送数据到对应的代理客户端
+                if (portMapping != null) {
+                    // 获取到返回结果，断开连接是发送了就行，不用管结果
+                    brokerListener.getPlayerAny(portMapping.getClientId()).send(NetworkProxyConstants.PROXY_SERVER_DISCONNECT, payload.getContent());
+                    // 认为断开连接成功
+                    payload.reply(Entity.of().metaPut(NetworkProxyConstants.REPLY_TYPE, NetworkProxyConstants.PROXY_SERVER_CONNECT).metaPut(NetworkProxyConstants.ACK, "1"));
                 }
             }
         });
 
         // 处理访问者数据
-        Dami.<ProxyData, Object>bus().listen(NetworkProxyConstants.PROXY_SERVER_READ, new TopicListener<Payload<ProxyData, Object>>() {
+        Dami.<Entity, Entity>bus().listen(NetworkProxyConstants.PROXY_SERVER_READ, new TopicListener<Payload<Entity, Entity>>() {
             @Override
-            public void onEvent(Payload<ProxyData, Object> voidPayload) throws Throwable {
+            public void onEvent(Payload<Entity, Entity> payload) throws Throwable {
                 // 通过隧道服务发送数据到对应的代理客户端
+                PortMapping portMapping = portMappingAll.get(payload.getContent().metaAsInt(NetworkProxyConstants.PROXY_SERVER_PORT));
+                if (portMapping != null) {
+                    brokerListener.getPlayerAny(portMapping.getClientId()).send(NetworkProxyConstants.PROXY_SERVER_READ, payload.getContent());
+                }
             }
         });
+
+
+        // 接收来真实服务端的数据
+        doOn(NetworkProxyConstants.PROXY_CLIENT_READ, (session, message) -> {
+            // 发送到对应的访问者
+            Payload<Entity, Entity> visitorReplay = visitorReplayAll.get(message.meta(NetworkProxyConstants.VISITOR_ID));
+            if (visitorReplay != null) {
+                visitorReplay.reply(Entity.of().metaPut(NetworkProxyConstants.REPLY_TYPE, NetworkProxyConstants.PROXY_CLIENT_READ));
+            }
+        });
+
     }
 
     @Override
@@ -92,9 +122,7 @@ public class TunnelServiceListener extends EventListener {
             throw new IllegalArgumentException("This proxty server already exists for port：" + portMapping.getServerPort());
         }
         // 创建代理服务
-        Server server = SocketD.createServer("sd:proxy-tcp")
-                .config(config -> config.port(portMapping.getServerPort()))
-                .start();
+        Server server = SocketD.createServer("sd:proxy-tcp").config(config -> config.port(portMapping.getServerPort())).start();
         portMappingServerAll.put(portMapping.getServerPort(), server);
         portMappingAll.put(portMapping.getServerPort(), portMapping);
         return this;

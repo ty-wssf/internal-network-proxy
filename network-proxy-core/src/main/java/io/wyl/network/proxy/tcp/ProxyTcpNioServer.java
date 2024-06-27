@@ -11,6 +11,7 @@ import io.wyl.network.common.ProxyData;
 import org.noear.dami.Dami;
 import org.noear.socketd.SocketD;
 import org.noear.socketd.exception.SocketDException;
+import org.noear.socketd.transport.core.Entity;
 import org.noear.socketd.transport.core.Listener;
 import org.noear.socketd.transport.netty.tcp.TcpNioServer;
 import org.noear.socketd.transport.server.Server;
@@ -23,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -87,18 +89,22 @@ public class ProxyTcpNioServer implements Server {
                                     InetSocketAddress sa = (InetSocketAddress) ctx.channel().localAddress();
                                     ctx.fireChannelActive();
                                     ctx.channel().config().setOption(ChannelOption.AUTO_READ, false);
-                                    Dami.<ProxyData, Boolean>bus().sendAndSubscribe(NetworkProxyConstants.PROXY_SERVER_CONNECT, new ProxyData(ctx.channel().id().asShortText(), sa.getPort(), null), new Consumer<Boolean>() {
-                                        @Override
-                                        public void accept(Boolean reply) {
-                                            // 成功，设置可读
-                                            // 失败断开连接
-                                            if (reply) {
+                                    // Entity
+                                    Entity connectEntity = Entity.of().metaPut(NetworkProxyConstants.VISITOR_ID, ctx.channel().id().asShortText())
+                                            .metaPut(NetworkProxyConstants.PROXY_SERVER_PORT, String.valueOf(sa.getPort()));
+                                    Dami.<Entity, Entity>bus().sendAndSubscribe(NetworkProxyConstants.PROXY_SERVER_CONNECT, connectEntity, reply -> {
+                                        // 可能返回真实的服务端返回的数据和连接成功的回复信息
+                                        String replyType = reply.meta(NetworkProxyConstants.REPLY_TYPE);
+                                        if (Objects.equals(replyType, NetworkProxyConstants.PROXY_SERVER_CONNECT)) { // 连接回复
+                                            if (reply.metaAsInt(NetworkProxyConstants.ACK) == 1) {
                                                 ctx.channel().config().setOption(ChannelOption.AUTO_READ, true);
                                                 log.info("访问者 {} 连接成功", ctx.channel().id().asShortText());
                                             } else {
                                                 ctx.close();
                                                 log.info("访问者 {} 连接失败", ctx.channel().id().asShortText());
                                             }
+                                        } else { // 真实的服务端返回的数据
+                                            ctx.channel().writeAndFlush(reply.dataAsBytes());
                                         }
                                     });
                                 }
@@ -120,9 +126,13 @@ public class ProxyTcpNioServer implements Server {
 
                                 @Override
                                 public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+                                    InetSocketAddress sa = (InetSocketAddress) ctx.channel().localAddress();
                                     // 当出现异常就关闭连接
                                     ctx.close();
                                     log.error("访问者 error", cause);
+                                    // 为了让代理客户端释放资源
+                                    Dami.<Entity, Entity>bus().send(NetworkProxyConstants.PROXY_SERVER_DISCONNECT, Entity.of().metaPut(NetworkProxyConstants.VISITOR_ID, ctx.channel().id().asShortText())
+                                            .metaPut(NetworkProxyConstants.PROXY_SERVER_PORT, String.valueOf(sa.getPort())));
                                 }
                             });
 
