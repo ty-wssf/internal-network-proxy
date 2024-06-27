@@ -52,11 +52,11 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>io.github.entropy-cloud.extensions</groupId>
             <artifactId>nop-demo</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
 
         <!-- 以下所有包都是可选的 -->
 
@@ -72,7 +72,7 @@
         </dependency>
 
         <!-- 字典表，全局序列号管理等 -->
-        <dependency>
+        <!--<dependency>
             <groupId>io.github.entropy-cloud</groupId>
             <artifactId>nop-sys-service</artifactId>
         </dependency>
@@ -80,10 +80,10 @@
         <dependency>
             <groupId>io.github.entropy-cloud</groupId>
             <artifactId>nop-sys-web</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!-- 规则引擎 -->
-        <dependency>
+        <!--<dependency>
             <groupId>io.github.entropy-cloud</groupId>
             <artifactId>nop-rule-service</artifactId>
         </dependency>
@@ -91,10 +91,10 @@
         <dependency>
             <groupId>io.github.entropy-cloud</groupId>
             <artifactId>nop-rule-web</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!-- 工作流引擎 -->
-        <dependency>
+        <!--<dependency>
             <groupId>io.github.entropy-cloud</groupId>
             <artifactId>nop-wf-service</artifactId>
         </dependency>
@@ -102,16 +102,16 @@
         <dependency>
             <groupId>io.github.entropy-cloud</groupId>
             <artifactId>nop-wf-web</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!-- 逻辑编排引擎 -->
-        <dependency>
+        <!--<dependency>
             <groupId>io.github.entropy-cloud</groupId>
             <artifactId>nop-task-core</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!-- 引入报表服务 -->
-        <dependency>
+        <!--<dependency>
             <groupId>io.github.entropy-cloud</groupId>
             <artifactId>nop-report-service</artifactId>
         </dependency>
@@ -119,7 +119,7 @@
         <dependency>
             <groupId>io.github.entropy-cloud</groupId>
             <artifactId>nop-report-web</artifactId>
-        </dependency>
+        </dependency>-->
 
 
         <!-- 引入集算器支持。如果不需要可以删除 -->
@@ -129,7 +129,7 @@
         <!--        </dependency>-->
 
         <!-- 在线建模，无代码开发 -->
-        <dependency>
+        <!--<dependency>
             <groupId>io.github.entropy-cloud</groupId>
             <artifactId>nop-dyn-service</artifactId>
         </dependency>
@@ -142,7 +142,7 @@
         <dependency>
             <groupId>io.github.entropy-cloud</groupId>
             <artifactId>nop-web-amis-editor</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!-- 前端AMIS页面 -->
         <dependency>
@@ -150,10 +150,10 @@
             <artifactId>nop-web-site</artifactId>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>io.github.entropy-cloud</groupId>
             <artifactId>nop-integration-file-local</artifactId>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>com.h2database</groupId>
