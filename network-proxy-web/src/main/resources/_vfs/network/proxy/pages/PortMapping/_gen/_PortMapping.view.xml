@@ -31,10 +31,10 @@
                 <col id="clientIp" mandatory="true" sortable="true"/>
 
                 <!--客户端端口-->
-                <col id="clientPort" sortable="true"/>
+                <col id="clientPort" mandatory="true" sortable="true"/>
 
                 <!--是否启动-->
-                <col id="enabled" sortable="true"/>
+                <col id="enabled" mandatory="true" sortable="true"/>
             </cols>
         </grid>
         <grid id="pick-list" x:prototype="list" x:abstract="true"/>

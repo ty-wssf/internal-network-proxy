@@ -24,7 +24,7 @@ public class _PortMapping extends DynamicOrmEntity{
     public static final String PROP_NAME_id = "id";
     public static final int PROP_ID_id = 1;
     
-    /* 服务端端口: SERVER_PORT VARCHAR */
+    /* 服务端端口: SERVER_PORT INTEGER */
     public static final String PROP_NAME_serverPort = "serverPort";
     public static final int PROP_ID_serverPort = 2;
     
@@ -102,7 +102,7 @@ public class _PortMapping extends DynamicOrmEntity{
     private java.lang.Integer _id;
     
     /* 服务端端口: SERVER_PORT */
-    private java.lang.String _serverPort;
+    private java.lang.Integer _serverPort;
     
     /* 协议: PROTOCOL */
     private java.lang.String _protocol;
@@ -248,9 +248,9 @@ public class _PortMapping extends DynamicOrmEntity{
             }
         
             case PROP_ID_serverPort:{
-               java.lang.String typedValue = null;
+               java.lang.Integer typedValue = null;
                if(value != null){
-                   typedValue = ConvertHelper.toString(value,
+                   typedValue = ConvertHelper.toInteger(value,
                        err-> newTypeConversionError(PROP_NAME_serverPort));
                }
                setServerPort(typedValue);
@@ -345,7 +345,7 @@ public class _PortMapping extends DynamicOrmEntity{
         
             case PROP_ID_serverPort:{
                onInitProp(propId);
-               this._serverPort = (java.lang.String)value;
+               this._serverPort = (java.lang.Integer)value;
                
                break;
             }
@@ -427,7 +427,7 @@ public class _PortMapping extends DynamicOrmEntity{
     /**
      * 服务端端口: SERVER_PORT
      */
-    public java.lang.String getServerPort(){
+    public java.lang.Integer getServerPort(){
          onPropGet(PROP_ID_serverPort);
          return _serverPort;
     }
@@ -435,7 +435,7 @@ public class _PortMapping extends DynamicOrmEntity{
     /**
      * 服务端端口: SERVER_PORT
      */
-    public void setServerPort(java.lang.String value){
+    public void setServerPort(java.lang.Integer value){
         if(onPropSet(PROP_ID_serverPort,value)){
             this._serverPort = value;
             internalClearRefs(PROP_ID_serverPort);

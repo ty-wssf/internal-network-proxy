@@ -84802,6 +84802,12 @@
       {
         "name": "setServerPort",
         "parameterTypes": [
+          "java.lang.Integer"
+        ]
+      },
+      {
+        "name": "setServerPort",
+        "parameterTypes": [
           "java.lang.String"
         ]
       },
@@ -84821,7 +84827,29 @@
     "allPublicConstructors": true,
     "allPublicMethods": true,
     "fields": [],
-    "methods": [],
+    "methods": [
+      {
+        "name": "defaultPrepareSave",
+        "parameterTypes": [
+          "io.nop.biz.crud.EntityData",
+          "io.nop.core.context.IServiceContext"
+        ]
+      },
+      {
+        "name": "disabled",
+        "parameterTypes": [
+          "java.lang.String",
+          "io.nop.core.context.IServiceContext"
+        ]
+      },
+      {
+        "name": "enabled",
+        "parameterTypes": [
+          "java.lang.String",
+          "io.nop.core.context.IServiceContext"
+        ]
+      }
+    ],
     "name": "network.proxy.service.entity.PortMappingBizModel",
     "unsafeAllocated": false
   }

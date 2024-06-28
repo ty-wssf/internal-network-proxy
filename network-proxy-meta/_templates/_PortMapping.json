@@ -1,6 +1,6 @@
 {
   "id": 0,
-  "serverPort": "",
+  "serverPort": 0,
   "protocol": "",
   "clientIp": "",
   "clientPort": 0,

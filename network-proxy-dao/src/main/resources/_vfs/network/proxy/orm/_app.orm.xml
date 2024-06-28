@@ -39,16 +39,16 @@
             <columns>
                 <column code="ID" displayName="Id" mandatory="true" name="id" primary="true" propId="1"
                         stdDataType="int" stdSqlType="INTEGER" tagSet="seq" ui:show="R"/>
-                <column code="SERVER_PORT" displayName="服务端端口" mandatory="true" name="serverPort" precision="63"
-                        propId="2" stdDataType="string" stdSqlType="VARCHAR"/>
+                <column code="SERVER_PORT" displayName="服务端端口" mandatory="true" name="serverPort" propId="2"
+                        stdDataType="int" stdSqlType="INTEGER"/>
                 <column code="PROTOCOL" displayName="协议" mandatory="true" name="protocol" precision="255" propId="3"
                         stdDataType="string" stdSqlType="VARCHAR"/>
                 <column code="CLIENT_IP" displayName="客户端IP" mandatory="true" name="clientIp" precision="255" propId="4"
                         stdDataType="string" stdSqlType="VARCHAR"/>
-                <column code="CLIENT_PORT" displayName="客户端端口" name="clientPort" propId="5" stdDataType="int"
-                        stdSqlType="INTEGER"/>
-                <column code="ENABLED" displayName="是否启动" name="enabled" propId="9" stdDataType="boolean"
-                        stdSqlType="BOOLEAN"/>
+                <column code="CLIENT_PORT" displayName="客户端端口" mandatory="true" name="clientPort" propId="5"
+                        stdDataType="int" stdSqlType="INTEGER"/>
+                <column code="ENABLED" defaultValue="false" displayName="是否启动" mandatory="true" name="enabled"
+                        propId="9" stdDataType="boolean" stdSqlType="BOOLEAN"/>
                 <column code="ADD_TIME" displayName="创建时间" domain="createTime" name="addTime" propId="10"
                         stdDataType="datetime" stdSqlType="DATETIME" ui:show="X"/>
                 <column code="UPDATE_TIME" displayName="更新时间" domain="updateTime" name="updateTime" propId="11"
@@ -56,6 +56,9 @@
                 <column code="DELETED" displayName="逻辑删除" domain="delFlag" name="deleted" propId="12"
                         stdDataType="boolean" stdSqlType="BOOLEAN" ui:show="X"/>
             </columns>
+            <unique-keys>
+                <unique-key columns="serverPort" constraint="UK_PORT_MAPPING_SERVER_PORT" name="userNameKey"/>
+            </unique-keys>
         </entity>
     </entities>
 </orm>
