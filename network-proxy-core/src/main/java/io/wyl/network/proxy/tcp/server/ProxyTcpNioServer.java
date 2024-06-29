@@ -37,8 +37,8 @@ public class ProxyTcpNioServer implements Server {
     private boolean isStarted;
     private final ServerConfig config;
     private ChannelFuture server;
-    private EventLoopGroup bossGroup;
-    private EventLoopGroup workGroup;
+    private static EventLoopGroup bossGroup;
+    private static EventLoopGroup workGroup;
 
     public ProxyTcpNioServer(ServerConfig config) {
         this.config = config;
@@ -75,8 +75,10 @@ public class ProxyTcpNioServer implements Server {
             isStarted = true;
         }
 
-        bossGroup = new NioEventLoopGroup(getConfig().getIoThreads(), new NamedThreadFactory("nettyTcpServerBoss-"));
-        workGroup = new NioEventLoopGroup(getConfig().getCodecThreads(), new NamedThreadFactory("nettyTcpServerWork-"));
+        if (bossGroup == null) {
+            bossGroup = new NioEventLoopGroup(getConfig().getIoThreads(), new NamedThreadFactory("proxyTcpServerBoss-"));
+            workGroup = new NioEventLoopGroup(getConfig().getCodecThreads(), new NamedThreadFactory("proxyTcpServerWork-"));
+        }
 
         try {
             ChannelHandler channelHandler = new ChannelInitializer<SocketChannel>() {

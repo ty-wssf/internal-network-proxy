@@ -27,8 +27,8 @@ public class ProxyTcpNioClientConnector implements ClientConnector {
 
     private static final Logger log = LoggerFactory.getLogger(ProxyTcpNioClientConnector.class);
     private ChannelFuture real;
-    private NioEventLoopGroup workerGroup;
-    private ClientConfig clientConfig;
+    private static NioEventLoopGroup workerGroup;
+    private final ClientConfig clientConfig;
 
     public ProxyTcpNioClientConnector(ClientConfig clientConfig) {
         this.clientConfig = clientConfig;
@@ -36,7 +36,9 @@ public class ProxyTcpNioClientConnector implements ClientConnector {
 
     @Override
     public ChannelFuture connect(Consumer<ChannelFuture> consumer) {
-        workerGroup = new NioEventLoopGroup(clientConfig.getCodecThreads(), new NamedThreadFactory("nettyTcpClientWork-"));
+        if (workerGroup == null) {
+            workerGroup = new NioEventLoopGroup(clientConfig.getCodecThreads(), new NamedThreadFactory("nettyTcpClientWork-"));
+        }
 
         Bootstrap bootstrap = new Bootstrap();
 
