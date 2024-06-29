@@ -17,18 +17,18 @@ public interface NetworkProxyConstants {
     /**
      * 读取代理服务数据主题
      */
-    String PROXY_SERVER_READ = "proxy.server.read";
+    String PROXY_SERVER_READ = "1";
 
-    String PROXY_SERVER_CONNECT = "proxy.server.connect";
-    String PROXY_SERVER_DISCONNECT = "proxy.server.disconnect";
-    String PROXY_SERVER_PORT = "proxy.server.port";
+    String PROXY_SERVER_CONNECT = "2";
+    String PROXY_SERVER_DISCONNECT = "3";
+    String PROXY_SERVER_PORT = "4";
 
-    String PROXY_CLIENT_READ = "proxy.client.read";
+    String PROXY_CLIENT_READ = "5";
 
-    String VISITOR_ID = "visitor.id";
-    String CLIENT_CHANNEL_ID = "client.channel.id";
+    String VISITOR_ID = "6";
+    String CLIENT_CHANNEL_ID = "7";
     String CLIENT_ID = "client.id";
-    String CLIENT_PORT = "client.port";
-    String CLIENT_IP = "client.ip";
+    String CLIENT_PORT = "8";
+    String CLIENT_IP = "9";
 
 }

@@ -48,23 +48,19 @@ public class ProxyTcpNioClientConnector implements ClientConnector {
                             @Override
                             public void channelActive(ChannelHandlerContext ctx) throws Exception {
                                 consumer.accept(real);
-                                // ctx.channel().config().setOption(ChannelOption.AUTO_READ, false);
                                 super.channelActive(ctx);
-                                // ctx.channel().config().setOption(ChannelOption.AUTO_READ, false);
                             }
 
                             // 添加处理器
                             @Override
                             protected void channelRead0(ChannelHandlerContext context, ByteBuf byteBuf) throws Exception {
                                 // 创建一个与ByteBuf长度相等的byte数组
-                                context.channel().config().setOption(ChannelOption.AUTO_READ, false);
                                 byte[] byteArray = new byte[byteBuf.readableBytes()];
-
                                 // 将ByteBuf的内容读取到byte数组中
                                 byteBuf.readBytes(byteArray);
                                 Dami.<Entity, Void>bus().send(NetworkProxyConstants.PROXY_CLIENT_READ, Entity.of(byteArray)
                                         .metaPut(NetworkProxyConstants.CLIENT_CHANNEL_ID, context.channel().id().asShortText()));
-                                context.channel().config().setOption(ChannelOption.AUTO_READ, true);
+
                             }
                         });
             }

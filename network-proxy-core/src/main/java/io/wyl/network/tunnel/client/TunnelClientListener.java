@@ -76,7 +76,7 @@ public class TunnelClientListener extends EventListener {
 
         Dami.<Entity, Void>bus().listen(NetworkProxyConstants.PROXY_CLIENT_READ, payload -> {
             Entity entity = payload.getContent();
-            log.info("来自真实服务端数据:{}", sessionAll_.get(entity.meta(NetworkProxyConstants.CLIENT_CHANNEL_ID)));
+            log.debug("来自真实服务端数据:{}", sessionAll_.get(entity.meta(NetworkProxyConstants.CLIENT_CHANNEL_ID)));
             entity.putMeta(NetworkProxyConstants.VISITOR_ID, sessionAll_.get(entity.meta(NetworkProxyConstants.CLIENT_CHANNEL_ID)));
             // 客户端怎么关联访问者
             session.send(NetworkProxyConstants.PROXY_CLIENT_READ, entity);
@@ -84,7 +84,7 @@ public class TunnelClientListener extends EventListener {
 
         // 处理数据请求
         doOn(NetworkProxyConstants.PROXY_SERVER_READ, (session, message) -> {
-            log.info("来自访问者数据:{}", message.meta(NetworkProxyConstants.VISITOR_ID));
+            log.debug("来自访问者数据:{}", message.meta(NetworkProxyConstants.VISITOR_ID));
             ChannelFuture channelFuture = sessionAll.get(message.meta(NetworkProxyConstants.VISITOR_ID));
             if (channelFuture != null) {
                 channelFuture.channel().writeAndFlush(Unpooled.wrappedBuffer(message.dataAsBytes()));

@@ -88,8 +88,7 @@ public class ProxyTcpNioServer implements Server {
                                 @Override
                                 public void channelActive(ChannelHandlerContext ctx) throws Exception {
                                     InetSocketAddress sa = (InetSocketAddress) ctx.channel().localAddress();
-                                    ctx.fireChannelActive();
-                                    // ctx.channel().config().setOption(ChannelOption.AUTO_READ, false);
+                                    ctx.channel().config().setOption(ChannelOption.AUTO_READ, false);
                                     // Entity
                                     Entity connectEntity = Entity.of().metaPut(NetworkProxyConstants.VISITOR_ID, ctx.channel().id().asShortText())
                                             .metaPut(NetworkProxyConstants.PROXY_SERVER_PORT, String.valueOf(sa.getPort()));
@@ -98,8 +97,9 @@ public class ProxyTcpNioServer implements Server {
                                         String replyType = reply.meta(NetworkProxyConstants.REPLY_TYPE);
                                         if (Objects.equals(replyType, NetworkProxyConstants.PROXY_SERVER_CONNECT)) { // 连接回复
                                             if (reply.metaAsInt(NetworkProxyConstants.ACK) == 1) {
-                                                // ctx.channel().config().setOption(ChannelOption.AUTO_READ, true);
                                                 log.info("访问者 {} 连接成功", ctx.channel().id().asShortText());
+                                                ctx.channel().config().setOption(ChannelOption.AUTO_READ, true);
+                                                // ctx.fireChannelActive();
                                             } else {
                                                 ctx.close();
                                                 log.info("访问者 {} 连接失败", ctx.channel().id().asShortText());

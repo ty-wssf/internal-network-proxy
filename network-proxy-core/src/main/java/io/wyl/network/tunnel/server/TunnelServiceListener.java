@@ -100,7 +100,7 @@ public class TunnelServiceListener extends EventListener {
         Dami.<Entity, Entity>bus().listen(NetworkProxyConstants.PROXY_SERVER_READ, new TopicListener<Payload<Entity, Entity>>() {
             @Override
             public void onEvent(Payload<Entity, Entity> payload) throws Throwable {
-                log.info("来自访问者收到数据:{}", payload.getContent().meta(NetworkProxyConstants.VISITOR_ID));
+                log.debug("来自访问者收到数据:{}", payload.getContent().meta(NetworkProxyConstants.VISITOR_ID));
                 // 通过隧道服务发送数据到对应的代理客户端
                 PortMapping portMapping = portMappingAll.get(payload.getContent().metaAsInt(NetworkProxyConstants.PROXY_SERVER_PORT));
                 if (portMapping != null) {
@@ -112,7 +112,7 @@ public class TunnelServiceListener extends EventListener {
 
         // 接收来真实服务端的数据
         doOn(NetworkProxyConstants.PROXY_CLIENT_READ, (session, message) -> {
-            log.info("访问者收到数据:{}", message.meta(NetworkProxyConstants.VISITOR_ID));
+            log.debug("访问者收到数据:{}", message.meta(NetworkProxyConstants.VISITOR_ID));
             // 发送到对应的访问者
             Payload<Entity, Entity> visitorReplay = visitorReplayAll.get(message.meta(NetworkProxyConstants.VISITOR_ID));
             if (visitorReplay != null) {
