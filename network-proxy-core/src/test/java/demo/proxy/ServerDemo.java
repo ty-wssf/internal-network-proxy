@@ -1,8 +1,10 @@
 package demo.proxy;
 
 import io.wyl.network.InternalNetworkProxy;
+import io.wyl.network.proxy.tcp.server.ProxyTcpNioServer;
 import io.wyl.network.tunnel.server.TunnelServer;
 import org.noear.socketd.SocketD;
+import org.noear.socketd.transport.server.ServerConfig;
 
 /**
  * @author wyl
@@ -11,9 +13,8 @@ import org.noear.socketd.SocketD;
 public class ServerDemo {
 
     public static void main(String[] args) throws Exception {
-        SocketD.createServer("sd:proxy-tcp")
-                .config(config -> config.port(18603))
-                .start();
+        ServerConfig serverConfig = new ServerConfig("");
+        new ProxyTcpNioServer(serverConfig).start();
     }
 
 

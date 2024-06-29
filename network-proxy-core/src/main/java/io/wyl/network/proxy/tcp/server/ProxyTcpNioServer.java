@@ -1,7 +1,8 @@
-package io.wyl.network.proxy.tcp;
+package io.wyl.network.proxy.tcp.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -88,7 +89,7 @@ public class ProxyTcpNioServer implements Server {
                                 public void channelActive(ChannelHandlerContext ctx) throws Exception {
                                     InetSocketAddress sa = (InetSocketAddress) ctx.channel().localAddress();
                                     ctx.fireChannelActive();
-                                    ctx.channel().config().setOption(ChannelOption.AUTO_READ, false);
+                                    // ctx.channel().config().setOption(ChannelOption.AUTO_READ, false);
                                     // Entity
                                     Entity connectEntity = Entity.of().metaPut(NetworkProxyConstants.VISITOR_ID, ctx.channel().id().asShortText())
                                             .metaPut(NetworkProxyConstants.PROXY_SERVER_PORT, String.valueOf(sa.getPort()));
@@ -97,14 +98,14 @@ public class ProxyTcpNioServer implements Server {
                                         String replyType = reply.meta(NetworkProxyConstants.REPLY_TYPE);
                                         if (Objects.equals(replyType, NetworkProxyConstants.PROXY_SERVER_CONNECT)) { // 连接回复
                                             if (reply.metaAsInt(NetworkProxyConstants.ACK) == 1) {
-                                                ctx.channel().config().setOption(ChannelOption.AUTO_READ, true);
+                                                // ctx.channel().config().setOption(ChannelOption.AUTO_READ, true);
                                                 log.info("访问者 {} 连接成功", ctx.channel().id().asShortText());
                                             } else {
                                                 ctx.close();
                                                 log.info("访问者 {} 连接失败", ctx.channel().id().asShortText());
                                             }
                                         } else { // 真实的服务端返回的数据
-                                            ctx.channel().writeAndFlush(reply.dataAsBytes());
+                                            ctx.channel().writeAndFlush(Unpooled.wrappedBuffer(reply.dataAsBytes()));
                                         }
                                     });
                                 }
@@ -121,7 +122,9 @@ public class ProxyTcpNioServer implements Server {
                                     byteBuf.readBytes(byteArray);
 
                                     // 通过代理客户端发送到真实的服务端
-                                    Dami.bus().send(NetworkProxyConstants.PROXY_SERVER_READ, new ProxyData(ctx.channel().id().asShortText(), sa.getPort(), byteArray));
+                                    Dami.bus().send(NetworkProxyConstants.PROXY_SERVER_READ, Entity.of(byteArray)
+                                            .metaPut(NetworkProxyConstants.VISITOR_ID, ctx.channel().id().asShortText())
+                                            .metaPut(NetworkProxyConstants.PROXY_SERVER_PORT, String.valueOf(sa.getPort())));
                                 }
 
                                 @Override
@@ -131,8 +134,8 @@ public class ProxyTcpNioServer implements Server {
                                     ctx.close();
                                     log.error("访问者 error", cause);
                                     // 为了让代理客户端释放资源
-                                    Dami.<Entity, Entity>bus().send(NetworkProxyConstants.PROXY_SERVER_DISCONNECT, Entity.of().metaPut(NetworkProxyConstants.VISITOR_ID, ctx.channel().id().asShortText())
-                                            .metaPut(NetworkProxyConstants.PROXY_SERVER_PORT, String.valueOf(sa.getPort())));
+                                    Dami.<Entity, Entity>bus().send(NetworkProxyConstants.PROXY_SERVER_DISCONNECT,
+                                            Entity.of().metaPut(NetworkProxyConstants.VISITOR_ID, ctx.channel().id().asShortText()));
                                 }
                             });
 

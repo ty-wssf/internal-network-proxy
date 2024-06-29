@@ -2,6 +2,7 @@ package io.wyl.network.tunnel.server;
 
 import io.wyl.network.common.NetworkProxyConstants;
 import io.wyl.network.common.ProxyData;
+import io.wyl.network.proxy.tcp.server.ProxyTcpNioServer;
 import org.noear.dami.Dami;
 import org.noear.dami.bus.Payload;
 import org.noear.dami.bus.TopicListener;
@@ -15,7 +16,10 @@ import org.noear.socketd.transport.core.Session;
 import org.noear.socketd.transport.core.listener.EventListener;
 import org.noear.socketd.transport.core.listener.MessageHandler;
 import org.noear.socketd.transport.server.Server;
+import org.noear.socketd.transport.server.ServerConfig;
 import org.noear.socketd.utils.IoConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Map;
@@ -27,6 +31,7 @@ import java.util.function.Consumer;
  * @date 2024年06月24日 21:29
  */
 public class TunnelServiceListener extends EventListener {
+    Logger log = LoggerFactory.getLogger(TunnelServiceListener.class);
 
     protected BrokerListener brokerListener = new BrokerListener();
     // 客户端端口映射
@@ -41,7 +46,8 @@ public class TunnelServiceListener extends EventListener {
         Dami.<Entity, Entity>bus().listen(NetworkProxyConstants.PROXY_SERVER_CONNECT, new TopicListener<Payload<Entity, Entity>>() {
             @Override
             public void onEvent(Payload<Entity, Entity> payload) throws Throwable {
-                PortMapping portMapping = portMappingAll.get(payload.getContent().metaAsInt(NetworkProxyConstants.CLIENT_PORT));
+                visitorReplayAll.put(payload.getContent().meta(NetworkProxyConstants.VISITOR_ID), payload);
+                PortMapping portMapping = portMappingAll.get(payload.getContent().metaAsInt(NetworkProxyConstants.PROXY_SERVER_PORT));
                 // 通过隧道服务发送数据到对应的代理客户端
                 if (portMapping != null) {
                     // 获取到返回结果
@@ -72,7 +78,7 @@ public class TunnelServiceListener extends EventListener {
                     // 获取到返回结果，断开连接是发送了就行，不用管结果
                     brokerListener.getPlayerAny(portMapping.getClientId()).send(NetworkProxyConstants.PROXY_SERVER_DISCONNECT, payload.getContent());
                     // 认为断开连接成功
-                    payload.reply(Entity.of().metaPut(NetworkProxyConstants.REPLY_TYPE, NetworkProxyConstants.PROXY_SERVER_CONNECT).metaPut(NetworkProxyConstants.ACK, "1"));
+                    payload.reply(Entity.of().metaPut(NetworkProxyConstants.REPLY_TYPE, NetworkProxyConstants.PROXY_SERVER_DISCONNECT).metaPut(NetworkProxyConstants.ACK, "1"));
                 }
             }
         });
@@ -92,10 +98,12 @@ public class TunnelServiceListener extends EventListener {
 
         // 接收来真实服务端的数据
         doOn(NetworkProxyConstants.PROXY_CLIENT_READ, (session, message) -> {
+            log.info("访问者收到数据:{}", message.meta(NetworkProxyConstants.VISITOR_ID));
             // 发送到对应的访问者
             Payload<Entity, Entity> visitorReplay = visitorReplayAll.get(message.meta(NetworkProxyConstants.VISITOR_ID));
             if (visitorReplay != null) {
-                visitorReplay.reply(Entity.of().metaPut(NetworkProxyConstants.REPLY_TYPE, NetworkProxyConstants.PROXY_CLIENT_READ));
+                message.putMeta(NetworkProxyConstants.REPLY_TYPE, NetworkProxyConstants.PROXY_CLIENT_READ);
+                visitorReplay.reply(message);
             }
         });
 
@@ -122,7 +130,9 @@ public class TunnelServiceListener extends EventListener {
             throw new IllegalArgumentException("This proxty server already exists for port：" + portMapping.getServerPort());
         }
         // 创建代理服务
-        Server server = SocketD.createServer("sd:proxy-tcp").config(config -> config.port(portMapping.getServerPort())).start();
+        ServerConfig serverConfig = new ServerConfig("sd:proxy-tcp");
+        serverConfig.port(portMapping.getServerPort());
+        Server server = new ProxyTcpNioServer(serverConfig).start();
         portMappingServerAll.put(portMapping.getServerPort(), server);
         portMappingAll.put(portMapping.getServerPort(), portMapping);
         return this;

@@ -26,6 +26,7 @@ public interface NetworkProxyConstants {
     String PROXY_CLIENT_READ = "proxy.client.read";
 
     String VISITOR_ID = "visitor.id";
+    String CLIENT_CHANNEL_ID = "client.channel.id";
     String CLIENT_ID = "client.id";
     String CLIENT_PORT = "client.port";
     String CLIENT_IP = "client.ip";
