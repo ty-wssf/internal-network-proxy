@@ -37,31 +37,27 @@ public class TunnelClientListener extends EventListener {
     private Session session;
 
     public TunnelClientListener() {
-        Dami.<Entity, Void>bus().listen(NetworkProxyConstants.PROXY_CLIENT_READ, new TopicListener<Payload<Entity, Void>>() {
-            @Override
-            public void onEvent(Payload<Entity, Void> payload) throws Throwable {
-                Entity entity = payload.getContent();
-                entity.putMeta(NetworkProxyConstants.VISITOR_ID, sessionAll_.get(entity.meta(NetworkProxyConstants.CLIENT_CHANNEL_ID)));
-                // 客户端怎么关联访问者
-                session.send(NetworkProxyConstants.PROXY_CLIENT_READ, entity);
-            }
-        });
+
         // 处理连接请求
         doOn(NetworkProxyConstants.PROXY_SERVER_CONNECT, (session, message) -> {
-            System.out.println("收到连接请求");
-            ClientConfig clientConfig = new ClientConfig("sd:proxy-tcp://10.20.10.152:30007");
+            ClientConfig clientConfig = new ClientConfig(String.format("sd:proxy-tcp://%s:%s", message.meta(NetworkProxyConstants.CLIENT_IP),
+                    message.meta(NetworkProxyConstants.CLIENT_PORT)));
             new ProxyTcpNioClientConnector(clientConfig).connect(new Consumer<ChannelFuture>() {
                 @Override
                 public void accept(ChannelFuture future) {
                     sessionAll_.put(future.channel().id().asShortText(), message.meta(NetworkProxyConstants.VISITOR_ID));
                     sessionAll.put(message.meta(NetworkProxyConstants.VISITOR_ID), future);
+                    log.info("连接成功: {}", message.meta(NetworkProxyConstants.VISITOR_ID));
                     try {
                         session.reply(message, Entity.of().metaPut("ack", "1"));
                     } catch (IOException e) {
                         log.info("连接失败: {}", message.meta(NetworkProxyConstants.VISITOR_ID));
                         // throw new RuntimeException(e);
                     }
-                    log.info("连接成功: {}", message.meta(NetworkProxyConstants.VISITOR_ID));
+                }
+            }).addListener((ChannelFutureListener) future -> {
+                if (!future.isSuccess()) {
+                    log.info("连接失败: {}", message.meta(NetworkProxyConstants.VISITOR_ID));
                 }
             });
 
@@ -69,14 +65,30 @@ public class TunnelClientListener extends EventListener {
 
         // 处理断开连接请求
         doOn(NetworkProxyConstants.PROXY_SERVER_DISCONNECT, (session, message) -> {
-            System.out.println("收到断开连接请求");
+            log.info("访问者断开连接:{}", message.meta(NetworkProxyConstants.VISITOR_ID));
+            ChannelFuture channelFuture = sessionAll.get(message.meta(NetworkProxyConstants.VISITOR_ID));
+            sessionAll.remove(message.meta(NetworkProxyConstants.VISITOR_ID));
+            if (channelFuture != null) {
+                sessionAll_.remove(channelFuture.channel().id().asShortText());
+                channelFuture.channel().close();
+            }
+        });
+
+        Dami.<Entity, Void>bus().listen(NetworkProxyConstants.PROXY_CLIENT_READ, payload -> {
+            Entity entity = payload.getContent();
+            log.info("来自真实服务端数据:{}", sessionAll_.get(entity.meta(NetworkProxyConstants.CLIENT_CHANNEL_ID)));
+            entity.putMeta(NetworkProxyConstants.VISITOR_ID, sessionAll_.get(entity.meta(NetworkProxyConstants.CLIENT_CHANNEL_ID)));
+            // 客户端怎么关联访问者
+            session.send(NetworkProxyConstants.PROXY_CLIENT_READ, entity);
         });
 
         // 处理数据请求
         doOn(NetworkProxyConstants.PROXY_SERVER_READ, (session, message) -> {
-            log.info("11111");
+            log.info("来自访问者数据:{}", message.meta(NetworkProxyConstants.VISITOR_ID));
             ChannelFuture channelFuture = sessionAll.get(message.meta(NetworkProxyConstants.VISITOR_ID));
-            channelFuture.channel().writeAndFlush(Unpooled.wrappedBuffer(message.dataAsBytes()));
+            if (channelFuture != null) {
+                channelFuture.channel().writeAndFlush(Unpooled.wrappedBuffer(message.dataAsBytes()));
+            }
         });
 
     }

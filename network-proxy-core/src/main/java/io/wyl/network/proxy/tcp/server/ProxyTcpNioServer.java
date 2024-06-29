@@ -128,6 +128,16 @@ public class ProxyTcpNioServer implements Server {
                                 }
 
                                 @Override
+                                public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+                                    InetSocketAddress sa = (InetSocketAddress) ctx.channel().localAddress();
+                                    super.channelInactive(ctx);
+                                    log.info("访问者 {} 断开连接", ctx.channel().id().asShortText());
+                                    Entity disconnectEntity = Entity.of().metaPut(NetworkProxyConstants.VISITOR_ID, ctx.channel().id().asShortText())
+                                            .metaPut(NetworkProxyConstants.PROXY_SERVER_PORT, String.valueOf(sa.getPort()));
+                                    Dami.<Entity, Entity>bus().send(NetworkProxyConstants.PROXY_SERVER_DISCONNECT, disconnectEntity);
+                                }
+
+                                @Override
                                 public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
                                     InetSocketAddress sa = (InetSocketAddress) ctx.channel().localAddress();
                                     // 当出现异常就关闭连接
@@ -137,6 +147,8 @@ public class ProxyTcpNioServer implements Server {
                                     Dami.<Entity, Entity>bus().send(NetworkProxyConstants.PROXY_SERVER_DISCONNECT,
                                             Entity.of().metaPut(NetworkProxyConstants.VISITOR_ID, ctx.channel().id().asShortText()));
                                 }
+
+
                             });
 
                 }

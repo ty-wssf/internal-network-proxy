@@ -12,6 +12,8 @@ public class ClientDemo1 {
 
     public static void main(String[] args) throws IOException {
         InternalNetworkProxy.createTunnelClient("sd:tcp://127.0.0.1:18602").nameAs("1").connect();
+
+        // InternalNetworkProxy.createTunnelClient("sd:tcp://127.0.0.1:18602").nameAs("2").connect();
     }
 
 }
