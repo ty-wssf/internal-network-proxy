@@ -1,0 +1,14 @@
+{
+  "id": 0,
+  "clientId": 0,
+  "serverPort": 0,
+  "protocol": "",
+  "clientIp": "",
+  "clientPort": 0,
+  "enabled": false,
+  "addTime": "2000-01-01 14:00:00",
+  "updateTime": "2000-01-01 14:00:00",
+  "deleted": false,
+  "client": null,
+  "client.name": ""
+}

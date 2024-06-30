@@ -1,6 +1,8 @@
 entity:
   label:
     PortMapping: null
+    ProxyClients: null
+    ProxyPortMapping: null
 prop:
   label:
     PortMapping:
@@ -13,3 +15,24 @@ prop:
       addTime: null
       updateTime: null
       deleted: null
+    ProxyClients:
+      id: null
+      name: null
+      enabled: null
+      addTime: null
+      updateTime: null
+      deleted: null
+      portMapping: PortMapping
+    ProxyPortMapping:
+      id: null
+      clientId: null
+      serverPort: null
+      protocol: null
+      clientIp: null
+      clientPort: null
+      enabled: null
+      addTime: null
+      updateTime: null
+      deleted: null
+      client: Client
+      client.name: Client

@@ -20,7 +20,7 @@ public class ProxyServerInitializer implements ICoreInitializer {
 
     @Override
     public void initialize() {
-        IDaoProvider daoProvider = BeanContainer.getBeanByType(IDaoProvider.class);
+        /*IDaoProvider daoProvider = BeanContainer.getBeanByType(IDaoProvider.class);
         PortMapping example = new PortMapping();
         example.setEnabled(true);
         try {
@@ -35,7 +35,7 @@ public class ProxyServerInitializer implements ICoreInitializer {
             }
         } catch (Exception e) {
             // throw new NopException(e);
-        }
+        }*/
 
     }
 

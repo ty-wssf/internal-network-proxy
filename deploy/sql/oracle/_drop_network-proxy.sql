@@ -1,3 +1,4 @@
 
-drop table port_mapping;
+drop table proxy_clients;
+drop table proxy_port_mapping;
 
