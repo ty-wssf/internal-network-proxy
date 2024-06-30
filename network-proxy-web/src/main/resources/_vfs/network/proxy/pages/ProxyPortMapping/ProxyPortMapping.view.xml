@@ -9,13 +9,33 @@
     <forms>
         <form id="view"/>
         <form id="edit">
-            <layout>
-                clientId[客户端]
-                serverPort[服务端端口]
-                protocol[协议]
-                clientIp[客户端IP]
-                clientPort[客户端端口]
-            </layout>
+            <cells>
+                <cell id="serverPort">
+                    <gen-control>
+                        <input-number>
+                            <validations>
+                                <isInt>true</isInt>
+                                <minimum>0</minimum>
+                                <maximum>65535</maximum>
+                            </validations>
+                        </input-number>
+                    </gen-control>
+                </cell>
+                <cell id="clientPort">
+                    <gen-control>
+                        <input-number>
+                            <validations>
+                                <isInt>true</isInt>
+                                <minimum>0</minimum>
+                                <maximum>65535</maximum>
+                            </validations>
+                        </input-number>
+                    </gen-control>
+                </cell>
+                <cell id="enabled">
+                    <visibleOn>false</visibleOn>
+                </cell>
+            </cells>
         </form>
     </forms>
 

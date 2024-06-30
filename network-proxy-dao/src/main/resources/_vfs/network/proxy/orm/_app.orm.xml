@@ -10,6 +10,13 @@
         <orm-gen:DefaultPostExtends xpl:lib="/nop/orm/xlib/orm-gen.xlib"/>
     </x:post-extends>
 
+    <dicts>
+        <dict label="协议类型" name="proxy/protocol-type" valueType="int" i18n-en:label="Protocol Type">
+            <option code="TCP" label="tcp" value="0"/>
+            <option code="HTTP" label="http" value="1"/>
+        </dict>
+    </dicts>
+
     <domains>
         <domain name="userName" precision="50" stdSqlType="VARCHAR"/>
         <domain name="email" precision="100" stdSqlType="VARCHAR"/>
@@ -44,7 +51,7 @@
                 <column code="SERVER_PORT" displayName="服务端端口" mandatory="true" name="serverPort" propId="3"
                         stdDataType="int" stdSqlType="INTEGER"/>
                 <column code="PROTOCOL" displayName="协议" mandatory="true" name="protocol" precision="255" propId="4"
-                        stdDataType="string" stdSqlType="VARCHAR"/>
+                        stdDataType="string" stdSqlType="VARCHAR" ext:dict="proxy/protocol-type"/>
                 <column code="CLIENT_IP" displayName="客户端IP" mandatory="true" name="clientIp" precision="255" propId="5"
                         stdDataType="string" stdSqlType="VARCHAR"/>
                 <column code="CLIENT_PORT" displayName="客户端端口" mandatory="true" name="clientPort" propId="6"

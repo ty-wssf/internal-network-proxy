@@ -28,6 +28,7 @@ prop:
       clientId: null
       serverPort: null
       protocol: null
+      protocol_label: null
       clientIp: null
       clientPort: null
       enabled: null

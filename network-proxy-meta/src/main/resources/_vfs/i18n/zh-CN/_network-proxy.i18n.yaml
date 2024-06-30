@@ -34,5 +34,6 @@ prop:
       enabled: 是否启动
       id: Id
       protocol: 协议
+      protocol_label: 协议
       serverPort: 服务端端口
       updateTime: 更新时间

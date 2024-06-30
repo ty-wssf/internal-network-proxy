@@ -1,0 +1,15 @@
+# __XGEN_FORCE_OVERRIDE__
+label: 协议类型
+locale: zh-CN
+valueType: int
+description: 
+options:
+
+  - label: tcp
+    value: 0
+    description: 
+  
+  - label: http
+    value: 1
+    description: 
+  

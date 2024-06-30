@@ -3,6 +3,7 @@
   "clientId": 0,
   "serverPort": 0,
   "protocol": "",
+  "protocol_label": "",
   "clientIp": "",
   "clientPort": 0,
   "enabled": false,

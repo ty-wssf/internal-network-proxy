@@ -34,7 +34,7 @@
         </prop>
         <prop name="protocol" displayName="协议" propId="4" mandatory="true" queryable="true" sortable="true"
               insertable="true" updatable="true">
-            <schema type="java.lang.String" precision="255"/>
+            <schema type="java.lang.String" precision="255" dict="proxy/protocol-type"/>
         </prop>
         <prop name="clientIp" displayName="客户端IP" propId="5" mandatory="true" queryable="true" sortable="true"
               insertable="true" updatable="true">
