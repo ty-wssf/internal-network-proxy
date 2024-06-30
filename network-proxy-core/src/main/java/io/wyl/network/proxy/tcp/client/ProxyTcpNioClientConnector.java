@@ -37,7 +37,7 @@ public class ProxyTcpNioClientConnector implements ClientConnector {
     @Override
     public ChannelFuture connect(Consumer<ChannelFuture> consumer) {
         if (workerGroup == null) {
-            workerGroup = new NioEventLoopGroup(clientConfig.getCodecThreads(), new NamedThreadFactory("nettyTcpClientWork-"));
+            workerGroup = new NioEventLoopGroup(clientConfig.getCodecThreads(), new NamedThreadFactory("proxyNettyTcpClientWork-"));
         }
 
         Bootstrap bootstrap = new Bootstrap();
@@ -49,8 +49,10 @@ public class ProxyTcpNioClientConnector implements ClientConnector {
                         .addLast(new SimpleChannelInboundHandler<ByteBuf>() {
                             @Override
                             public void channelActive(ChannelHandlerContext ctx) throws Exception {
+                                ctx.channel().config().setOption(ChannelOption.AUTO_READ, false);
                                 consumer.accept(real);
                                 super.channelActive(ctx);
+                                ctx.channel().config().setOption(ChannelOption.AUTO_READ, true);
                             }
 
                             // 添加处理器

@@ -101,7 +101,7 @@ public class ProxyTcpNioServer implements Server {
                                             if (reply.metaAsInt(NetworkProxyConstants.ACK) == 1) {
                                                 log.info("访问者 {} 连接成功", ctx.channel().id().asShortText());
                                                 ctx.channel().config().setOption(ChannelOption.AUTO_READ, true);
-                                                // ctx.fireChannelActive();
+                                                ctx.fireChannelActive();
                                             } else {
                                                 ctx.close();
                                                 log.info("访问者 {} 连接失败", ctx.channel().id().asShortText());
@@ -202,16 +202,19 @@ public class ProxyTcpNioServer implements Server {
 
             if (bossGroup != null) {
                 bossGroup.shutdownGracefully();
+                bossGroup = null;
             }
 
             if (workGroup != null) {
                 workGroup.shutdownGracefully();
+                workGroup = null;
             }
         } catch (Exception e) {
             if (log.isDebugEnabled()) {
                 log.debug("Server stop error", e);
             }
         }
+        log.info("proxy server stop: {server=" + getConfig().getLocalUrl() + "}");
     }
 
 }

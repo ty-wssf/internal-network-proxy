@@ -4,7 +4,7 @@ server:
 
 solon.logging.appender:
   console:
-    level: DEBUG #可根据需要调整级别
+    level: INFO #可根据需要调整级别
     enable: true #是否启用
   cloud:
     level: INFO

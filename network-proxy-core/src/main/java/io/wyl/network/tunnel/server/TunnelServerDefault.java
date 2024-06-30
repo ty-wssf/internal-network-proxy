@@ -6,6 +6,7 @@ import org.noear.socketd.transport.server.Server;
 import org.noear.socketd.transport.server.ServerConfigHandler;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author wyl
@@ -40,9 +41,7 @@ public class TunnelServerDefault implements TunnelServer {
 
         server.config(c -> c.serialSend(false)
                 .streamTimeout(NetworkProxyConstants.SERVER_STREAM_TIMEOUT_DEFAULT)
-                .ioThreads(1)
-                .codecThreads(1)
-                .exchangeThreads(1));
+                .ioThreads(2));
 
         //配置
         if (serverConfigHandler != null) {
@@ -58,7 +57,11 @@ public class TunnelServerDefault implements TunnelServer {
     }
 
     @Override
-    public void stop() {
+    public void stop() throws IOException {
+        List<PortMapping> list = serverListener.getPortMappingList();
+        for (int i = 0; i < list.size(); i++) {
+            serverListener.removePortMapping(list.get(i).getServerPort());
+        }
         //停止
         server.stop();
     }
@@ -66,6 +69,12 @@ public class TunnelServerDefault implements TunnelServer {
     @Override
     public TunnelServer addPortMapping(PortMapping portMapping) throws IOException {
         serverListener.addPortMapping(portMapping);
+        return this;
+    }
+
+    @Override
+    public TunnelServer removePortMapping(Integer serverPort) throws IOException {
+        serverListener.removePortMapping(serverPort);
         return this;
     }
 

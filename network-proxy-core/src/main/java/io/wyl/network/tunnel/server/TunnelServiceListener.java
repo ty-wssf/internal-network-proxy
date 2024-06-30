@@ -1,5 +1,6 @@
 package io.wyl.network.tunnel.server;
 
+import io.netty.util.NettyRuntime;
 import io.wyl.network.common.NetworkProxyConstants;
 import io.wyl.network.common.ProxyData;
 import io.wyl.network.proxy.tcp.server.ProxyTcpNioServer;
@@ -9,20 +10,18 @@ import org.noear.dami.bus.TopicListener;
 import org.noear.snack.ONode;
 import org.noear.socketd.SocketD;
 import org.noear.socketd.broker.BrokerListener;
-import org.noear.socketd.transport.core.Entity;
-import org.noear.socketd.transport.core.Message;
-import org.noear.socketd.transport.core.Reply;
-import org.noear.socketd.transport.core.Session;
+import org.noear.socketd.transport.core.*;
 import org.noear.socketd.transport.core.listener.EventListener;
 import org.noear.socketd.transport.core.listener.MessageHandler;
 import org.noear.socketd.transport.server.Server;
 import org.noear.socketd.transport.server.ServerConfig;
 import org.noear.socketd.utils.IoConsumer;
+import org.noear.socketd.utils.StrUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
@@ -125,10 +124,24 @@ public class TunnelServiceListener extends EventListener {
 
     @Override
     public void onOpen(Session session) throws IOException {
-        super.onOpen(session);
+        String name = session.name();
+        Asserts.assertNull("tunnel client name", name);
 
-        // 增加经理人支持
-        brokerListener.onOpen(session);
+        boolean isOk = false;
+        Set<PortMapping> list = new HashSet<>(portMappingAll.values());
+        for (PortMapping portMapping : list) {
+            if (name.equals(portMapping.getClientId())) {
+                super.onOpen(session);
+                // 增加经理人支持
+                brokerListener.onOpen(session);
+                isOk = true;
+                break;
+            }
+        }
+        if (!isOk) {
+            session.close();
+        }
+
     }
 
     @Override
@@ -146,10 +159,23 @@ public class TunnelServiceListener extends EventListener {
         // 创建代理服务
         ServerConfig serverConfig = new ServerConfig("sd:proxy-tcp");
         serverConfig.port(portMapping.getServerPort());
+        serverConfig.ioThreads(NettyRuntime.availableProcessors() * 2);
         Server server = new ProxyTcpNioServer(serverConfig).start();
         portMappingServerAll.put(portMapping.getServerPort(), server);
         portMappingAll.put(portMapping.getServerPort(), portMapping);
         return this;
+    }
+
+    public TunnelServiceListener removePortMapping(Integer serverPort) throws IOException {
+        Server server = portMappingServerAll.get(serverPort);
+        server.stop();
+        portMappingAll.remove(serverPort);
+        portMappingServerAll.remove(serverPort);
+        return this;
+    }
+
+    public List<PortMapping> getPortMappingList() {
+        return new ArrayList<>(portMappingAll.values());
     }
 
 }

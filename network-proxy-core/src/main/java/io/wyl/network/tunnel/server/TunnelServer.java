@@ -25,11 +25,13 @@ public interface TunnelServer {
     /**
      * 停止
      */
-    void stop();
+    void stop() throws IOException;
 
     /**
      * 添加本地服务端口和代理局域网信息的映射关系
      */
     TunnelServer addPortMapping(PortMapping portMapping) throws IOException;
+
+    TunnelServer removePortMapping(Integer serverPort) throws IOException;
 
 }

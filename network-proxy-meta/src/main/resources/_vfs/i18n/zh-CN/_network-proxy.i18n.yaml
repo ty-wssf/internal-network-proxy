@@ -1,20 +1,9 @@
 entity:
   label:
-    PortMapping: 端口映射表
     ProxyClients: 客户端
     ProxyPortMapping: 端口映射
 prop:
   label:
-    PortMapping:
-      addTime: 创建时间
-      clientIp: 客户端IP
-      clientPort: 客户端端口
-      deleted: 逻辑删除
-      enabled: 是否启动
-      id: Id
-      protocol: 协议
-      serverPort: 服务端端口
-      updateTime: 更新时间
     ProxyClients:
       addTime: 创建时间
       deleted: 逻辑删除

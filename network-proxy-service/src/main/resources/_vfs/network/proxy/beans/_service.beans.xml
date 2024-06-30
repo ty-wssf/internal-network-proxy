@@ -7,5 +7,5 @@
 
     <bean id="network.proxy.service.entity.ProxyClientsBizModel" ioc:type="@bean:id" ioc:default="true"/>
 
-    <bean id="network.proxy.service.entity.ProxyPortMappingBizModel" ioc:type="@bean:id" ioc:default="true"/>
+    <bean id="network.proxy.service.entity.ProxyPortMappingBizModel" ioc:type="@bean:id" ioc:default="true" ioc:delay-method="lazyInit"/>
 </beans>
