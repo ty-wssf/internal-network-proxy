@@ -8,11 +8,48 @@
 
     <forms>
         <form id="view"/>
-        <form id="edit"/>
+        <form id="edit">
+            <cells>
+                <cell id="enabled">
+                    <visibleOn>false</visibleOn>
+                </cell>
+            </cells>
+        </form>
     </forms>
 
     <pages>
-        <crud name="main"/>
+        <crud name="main">
+            <rowActions>
+                <action id="row-enabled-button" level="danger" label="启用" x:abstract="true">
+                    <api url="@mutation:ProxyClients__enabled?id=$id"/>
+                    <confirmText>确认启用吗？</confirmText>
+                </action>
+                <action id="row-disabled-button" level="danger" label="禁用" x:abstract="true">
+                    <api url="@mutation:ProxyClients__disabled?id=$id"/>
+                    <confirmText>确认禁用吗？</confirmText>
+                </action>
+                <actionGroup id="row-more-button" label="@i18n:common.more" level="primary">
+                    <action id="row-enabled-button" label="启用">
+                        <api url="@mutation:ProxyClients__enabled">
+                            <data>
+                                <id>$id</id>
+                            </data>
+                        </api>
+                        <confirmText>确认启用吗？</confirmText>
+                        <visibleOn>${enabled == '0'}</visibleOn>
+                    </action>
+                    <action id="row-disabled-button" label="禁用">
+                        <api url="@mutation:ProxyClients__disabled">
+                            <data>
+                                <id>$id</id>
+                            </data>
+                        </api>
+                        <confirmText>确认禁用吗？</confirmText>
+                        <visibleOn>${enabled == '1'}</visibleOn>
+                    </action>
+                </actionGroup>
+            </rowActions>
+        </crud>
         <picker name="picker"/>
     </pages>
 </view>
