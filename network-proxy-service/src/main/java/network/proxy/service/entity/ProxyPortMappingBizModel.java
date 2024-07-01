@@ -1,31 +1,29 @@
 
 package network.proxy.service.entity;
 
+import com.wyl.intranettunnel.tunnel.server.ClientInfo;
+import com.wyl.intranettunnel.tunnel.server.PortMapping;
+import com.wyl.intranettunnel.tunnel.server.TunnelServer;
+import com.wyl.intranettunnel.tunnel.server.TunnelServerDefault;
 import io.nop.api.core.annotations.biz.BizModel;
 import io.nop.api.core.annotations.biz.BizMutation;
 import io.nop.api.core.annotations.core.Description;
 import io.nop.api.core.annotations.core.Name;
-import io.nop.api.core.beans.query.QueryBean;
 import io.nop.api.core.exceptions.ErrorCode;
 import io.nop.api.core.exceptions.NopException;
 import io.nop.biz.crud.CrudBizModel;
-
 import io.nop.core.context.IServiceContext;
 import io.nop.dao.api.DaoProvider;
-import io.wyl.network.InternalNetworkProxy;
-import io.wyl.network.tunnel.server.PortMapping;
-import io.wyl.network.tunnel.server.TunnelServer;
 import jakarta.annotation.PreDestroy;
 import network.proxy.dao.entity.ProxyClients;
 import network.proxy.dao.entity.ProxyPortMapping;
 
-import java.io.IOException;
 import java.util.List;
 
 @BizModel("ProxyPortMapping")
 public class ProxyPortMappingBizModel extends CrudBizModel<ProxyPortMapping> {
 
-    private TunnelServer tunnelServer = null;
+    TunnelServer tunnelServer = new TunnelServerDefault();
 
     public ProxyPortMappingBizModel() {
         setEntityName(ProxyPortMapping.class.getName());
@@ -47,14 +45,14 @@ public class ProxyPortMappingBizModel extends CrudBizModel<ProxyPortMapping> {
         }
 
         // 新增服务
-        try {
-            PortMapping portMapping = new PortMapping(String.valueOf(entity.getClientId()),
-                    entity.getServerPort(), entity.getClientIp(), entity.getClientPort(),
-                    entity.getProtocol());
-            tunnelServer.addPortMapping(portMapping);
-        } catch (IOException e) {
-            throw NopException.adapt(e);
-        }
+        PortMapping portMapping = new PortMapping();
+        portMapping.setClientId(String.valueOf(entity.getClientId()));
+        portMapping.setServerPort(entity.getServerPort());
+        portMapping.setClientIp(entity.getClientIp());
+        portMapping.setClientPort(entity.getClientPort());
+        portMapping.setProtocol(entity.getProtocol());
+        tunnelServer.addPortMapping(portMapping);
+
         return true;
     }
 
@@ -65,47 +63,53 @@ public class ProxyPortMappingBizModel extends CrudBizModel<ProxyPortMapping> {
         dao().updateEntity(entity);
 
         // 移除服务
-        try {
-            tunnelServer.removePortMapping(entity.getServerPort());
-        } catch (IOException e) {
-            throw NopException.adapt(e);
-        }
+        tunnelServer.removeMappingByPort(entity.getServerPort());
         return true;
     }
 
     // 延迟加载
     public void lazyInit() {
-        if (tunnelServer == null) {
-            try {
-                tunnelServer = InternalNetworkProxy.createTunnelServer().start(18602);
-            } catch (Exception e) {
-                throw NopException.adapt(e);
-            }
-            ProxyPortMapping example = new ProxyPortMapping();
-            example.setEnabled(true);
-            List<ProxyPortMapping> list = DaoProvider.instance().daoFor(ProxyPortMapping.class).findAllByExample(example);
-            for (int i = 0; i < list.size(); i++) {
-                ProxyPortMapping proxyPortMapping = list.get(i);
-                PortMapping portMapping = new PortMapping(String.valueOf(list.get(i).getClientId()),
-                        proxyPortMapping.getServerPort(), proxyPortMapping.getClientIp(), proxyPortMapping.getClientPort(),
-                        proxyPortMapping.getProtocol());
-                try {
-                    tunnelServer.addPortMapping(portMapping);
-                } catch (IOException e) {
-                    throw NopException.adapt(e);
-                }
-            }
+        try {
+            tunnelServer.start(8602);
+        } catch (Exception e) {
+            throw NopException.adapt(e);
         }
+
+        ProxyClients proxyClientsExample = new ProxyClients();
+        proxyClientsExample.setEnabled(true);
+        List<ProxyClients> proxyClientsList = DaoProvider.instance().daoFor(ProxyClients.class).findAllByExample(proxyClientsExample);
+        for (int i = 0; i < proxyClientsList.size(); i++) {
+            // 默认添加启动的客户端
+            tunnelServer.addClientInfo(new ClientInfo(String.valueOf(proxyClientsList.get(i).getId())));
+        }
+
+        ProxyPortMapping proxyPortMappingExample = new ProxyPortMapping();
+        proxyClientsExample.setEnabled(true);
+        List<ProxyPortMapping> proxyPortMappingList = DaoProvider.instance().daoFor(ProxyPortMapping.class).findAllByExample(proxyPortMappingExample);
+        for (int i = 0; i < proxyPortMappingList.size(); i++) {
+            // 默认启动启用的代理服务
+            PortMapping portMapping = new PortMapping();
+            portMapping.setClientId(String.valueOf(proxyPortMappingList.get(i).getClientId()));
+            portMapping.setServerPort(proxyPortMappingList.get(i).getServerPort());
+            portMapping.setClientIp(proxyPortMappingList.get(i).getClientIp());
+            portMapping.setClientPort(proxyPortMappingList.get(i).getClientPort());
+            portMapping.setProtocol(proxyPortMappingList.get(i).getProtocol());
+            tunnelServer.addPortMapping(portMapping);
+        }
+    }
+
+    void addClientInfo(ClientInfo clientInfo) {
+        tunnelServer.addClientInfo(clientInfo);
+    }
+
+    void removeClientInfo(String clientId) {
+        tunnelServer.removeClientInfo(clientId);
     }
 
     @PreDestroy
     public void destroy() {
         if (tunnelServer == null) {
-            try {
-                tunnelServer.stop();
-            } catch (IOException e) {
-                throw NopException.adapt(e);
-            }
+            tunnelServer.stop();
         }
     }
 

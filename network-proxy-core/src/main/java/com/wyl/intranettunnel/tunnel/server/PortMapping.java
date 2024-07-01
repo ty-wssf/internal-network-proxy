@@ -1,10 +1,11 @@
-package io.wyl.network.tunnel.server;
+package com.wyl.intranettunnel.tunnel.server;
 
 /**
  * @author wyl
- * @date 2024年06月25日 18:25
+ * @date 2024年02月17日 14:19
  */
 public class PortMapping {
+
     /**
      * 客户端id
      */
@@ -25,14 +26,6 @@ public class PortMapping {
      * 协议
      */
     private String protocol;
-
-    public PortMapping(String clientId, Integer serverPort, String clientIp, Integer clientPort, String protocol) {
-        this.clientId = clientId;
-        this.serverPort = serverPort;
-        this.clientIp = clientIp;
-        this.clientPort = clientPort;
-        this.protocol = protocol;
-    }
 
     public String getClientId() {
         return clientId;
@@ -73,6 +66,4 @@ public class PortMapping {
     public void setProtocol(String protocol) {
         this.protocol = protocol;
     }
-
-
 }
