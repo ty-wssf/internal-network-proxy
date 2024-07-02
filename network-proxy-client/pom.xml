@@ -22,6 +22,11 @@
             <groupId>io.wyl</groupId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <artifactId>network-proxy-netty</artifactId>
+            <groupId>io.wyl</groupId>
+            <version>1.0.0</version>
+        </dependency>
         <!-- 般在主模块里引入 http-server 相关组件（方便切换选择不同的方案） -->
         <dependency>
             <groupId>org.noear</groupId>

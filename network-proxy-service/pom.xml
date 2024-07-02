@@ -14,12 +14,17 @@
 
     <dependencies>
         <dependency>
-            <artifactId>network-proxy-dao</artifactId>
+            <artifactId>network-proxy-core</artifactId>
             <groupId>io.wyl</groupId>
             <version>1.0.0</version>
         </dependency>
         <dependency>
-            <artifactId>network-proxy-core</artifactId>
+            <artifactId>network-proxy-netty</artifactId>
+            <groupId>io.wyl</groupId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <artifactId>network-proxy-dao</artifactId>
             <groupId>io.wyl</groupId>
             <version>1.0.0</version>
         </dependency>

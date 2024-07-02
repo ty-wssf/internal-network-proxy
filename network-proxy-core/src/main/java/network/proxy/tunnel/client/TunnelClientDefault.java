@@ -2,9 +2,8 @@ package network.proxy.tunnel.client;
 
 import network.proxy.common.TunnelConstants;
 import network.proxy.proxy.ClientConnectionCallback;
+import network.proxy.proxy.NetworkProxy;
 import network.proxy.proxy.ProxyClient;
-import network.proxy.proxy.tcp.client.TcpProxyClientDefault;
-import network.proxy.proxy.udp.client.UdpProxyClientDefault;
 import org.noear.socketd.SocketD;
 import org.noear.socketd.transport.client.Client;
 import org.noear.socketd.transport.client.ClientConfigHandler;
@@ -43,7 +42,8 @@ public class TunnelClientDefault extends EventListener implements TunnelClient {
         // 连接指令
         doOn(TunnelConstants.CONNECT, (s, m) -> {
             if (m.isRequest() || m.isSubscribe()) {
-                ProxyClient client = new TcpProxyClientDefault(this, m.meta(TunnelConstants.LAN_INFO), m.meta(TunnelConstants.VISITOR_ID));
+
+                ProxyClient client = NetworkProxy.instance.createTcpClient(this, m.meta(TunnelConstants.LAN_INFO), m.meta(TunnelConstants.VISITOR_ID));
                 client.connect(new ClientConnectionCallback() {
                     @Override
                     public void onConnectSuccess() throws IOException {
@@ -77,7 +77,7 @@ public class TunnelClientDefault extends EventListener implements TunnelClient {
             if (TunnelConstants.UDP_PROTOCOL.equals(protocol)) {
                 String visitorId = m.meta(TunnelConstants.VISITOR_ID);
                 if (proxyClientAll.get(visitorId) == null) {
-                    ProxyClient client = new UdpProxyClientDefault(this, m.meta(TunnelConstants.LAN_INFO), m.meta(TunnelConstants.VISITOR_ID));
+                    ProxyClient client = NetworkProxy.instance.createTcpClient(this, m.meta(TunnelConstants.LAN_INFO), m.meta(TunnelConstants.VISITOR_ID));
                     client.connect(new ClientConnectionCallback() {
                         @Override
                         public void onConnectSuccess() throws IOException {

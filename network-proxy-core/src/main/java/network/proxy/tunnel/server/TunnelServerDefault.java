@@ -1,9 +1,8 @@
 package network.proxy.tunnel.server;
 
 import network.proxy.common.TunnelConstants;
+import network.proxy.proxy.NetworkProxy;
 import network.proxy.proxy.ProxyServer;
-import network.proxy.proxy.tcp.server.TcpProxyServer;
-import network.proxy.proxy.udp.server.UdpProxyServer;
 import org.noear.socketd.SocketD;
 import org.noear.socketd.broker.BrokerListener;
 import org.noear.socketd.cluster.LoadBalancer;
@@ -65,10 +64,12 @@ public class TunnelServerDefault extends EventListener implements TunnelServer {
             ProxyServer server;
             if (TunnelConstants.UDP_PROTOCOL.equals(portMapping.getProtocol())) {
                 ServerConfig config = new ServerConfig("sd:udp").port(portMapping.getServerPort());
-                server = new UdpProxyServer(config, this);
+                // server = new UdpProxyServer(config, this);
+                server = NetworkProxy.instance.createUdpServer(config, this);
             } else {
                 ServerConfig config = new ServerConfig("sd:tcp").port(portMapping.getServerPort());
-                server = new TcpProxyServer(config, this);
+                // server = new TcpProxyServer(config, this);
+                server = NetworkProxy.instance.createTcpServer(config, this);
             }
 
             try {
