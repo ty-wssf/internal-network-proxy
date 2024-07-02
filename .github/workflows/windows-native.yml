@@ -33,10 +33,10 @@ jobs:
       - name: Build with Maven
         run: mvn -B install --file pom.xml
 
-      - name: Build with Maven (network-proxy-client)
+      - name: Build with Maven (network-proxy-app)
         run: |
           set MAVEN_OPTS="-Duser.language=UTF-8 -Dfile.encoding=UTF-8"
-          cd network-proxy-client
+          cd network-proxy-app
           mvn clean package --file pom.xml --no-transfer-progress
           mvn clean native:compile -P native --file pom.xml --no-transfer-progress
 
