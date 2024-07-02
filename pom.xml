@@ -61,7 +61,7 @@
             </snapshots>
         </repository>
         <!-- 中央仓库 -->
-        <repository>
+        <!--<repository>
             <id>central</id>
             <url>https://repo1.maven.org/maven2</url>
             <releases>
@@ -70,7 +70,7 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </repository>
+        </repository>-->
         <!-- 自定义仓库1 -->
         <repository>
             <id>nop-snapshot-repo</id>
