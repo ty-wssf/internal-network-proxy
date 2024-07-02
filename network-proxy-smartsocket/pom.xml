@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <artifactId>network-proxy</artifactId>
+        <groupId>io.wyl</groupId>
+        <version>1.0.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>network-proxy-smartsocket</artifactId>
+
+    <version>1.0.0</version>
+
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.wyl</groupId>
+            <artifactId>network-proxy-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!-- 使用哪个（或多个）传输包（按需选择）//这些传输包，会使用独立的端口 -->
+        <dependency>
+            <groupId>org.noear</groupId>
+            <artifactId>socketd-transport-smartsocket</artifactId>
+            <version>${socketd.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

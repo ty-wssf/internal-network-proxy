@@ -32,9 +32,9 @@ public class TcpProxyClientDefault implements ProxyClient {
     private ChannelFuture real;
     private NioEventLoopGroup workerGroup;
     private ClientConfig config;
-    private TunnelClient tunnelClient;
-    private String visitorId;
-    private String lanInfo;
+    private final TunnelClient tunnelClient;
+    private final String visitorId;
+    private final String lanInfo;
 
     public TcpProxyClientDefault(TunnelClient tunnelClient, String lanInfo, String visitorId) {
         this.tunnelClient = tunnelClient;

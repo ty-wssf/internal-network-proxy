@@ -29,6 +29,7 @@
     <modules>
         <module>network-proxy-core</module>
         <module>network-proxy-netty</module>
+        <module>network-proxy-smartsocket</module>
         <module>network-proxy-client</module>
         <module>network-proxy-codegen</module>
         <module>network-proxy-api</module>
