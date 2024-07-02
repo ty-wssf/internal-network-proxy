@@ -1,15 +1,15 @@
-server:
-  port: 8050
-  http.gzip.enable: true
+server.port: 9000
 
-solon.app:
-  group: network-proxy
-  name: network-proxy-app
+solon:
+  app:
+    group: network-proxy
+    name: network-proxy-client
+  config:
+    add: ./app.yml
 
 solon.logging.appender:
   console:
-    level: INFO #可根据需要调整级别
-    enable: true #是否启用
+    level: INFO
   file:
     level: INFO
     name: "logs/${solon.app.name}"
@@ -22,5 +22,6 @@ solon.logging.logger:
     level: INFO
   "io.netty":
     level: WARN
-  "com.zaxxer.hikari":
-    level: WARN
+
+tunnel.serverUrl: "sd:tcp://127.0.0.1:8602"
+tunnel.clientId: "115066186"

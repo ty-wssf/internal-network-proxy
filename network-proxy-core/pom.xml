@@ -34,12 +34,6 @@
             <artifactId>slf4j-simple</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.noear</groupId>
-            <artifactId>dami</artifactId>
-            <version>0.58</version>
-        </dependency>
     </dependencies>
 
 </project>

@@ -28,6 +28,7 @@
 
     <modules>
         <module>network-proxy-core</module>
+        <module>network-proxy-client</module>
         <module>network-proxy-codegen</module>
         <module>network-proxy-api</module>
         <module>network-proxy-dao</module>

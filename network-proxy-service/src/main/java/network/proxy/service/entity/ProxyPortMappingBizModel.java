@@ -1,10 +1,10 @@
 
 package network.proxy.service.entity;
 
-import com.wyl.intranettunnel.tunnel.server.ClientInfo;
-import com.wyl.intranettunnel.tunnel.server.PortMapping;
-import com.wyl.intranettunnel.tunnel.server.TunnelServer;
-import com.wyl.intranettunnel.tunnel.server.TunnelServerDefault;
+import network.proxy.tunnel.server.ClientInfo;
+import network.proxy.tunnel.server.PortMapping;
+import network.proxy.tunnel.server.TunnelServer;
+import network.proxy.tunnel.server.TunnelServerDefault;
 import io.nop.api.core.annotations.biz.BizModel;
 import io.nop.api.core.annotations.biz.BizMutation;
 import io.nop.api.core.annotations.core.Description;
@@ -72,7 +72,7 @@ public class ProxyPortMappingBizModel extends CrudBizModel<ProxyPortMapping> {
         try {
             tunnelServer.start(8602);
         } catch (Exception e) {
-            throw NopException.adapt(e);
+            throw NopException.wrap(e);
         }
 
         ProxyClients proxyClientsExample = new ProxyClients();
