@@ -33,6 +33,21 @@ jobs:
       - name: Build with Maven
         run: mvn -B install --file pom.xml
 
+      - name: setup node v16.20.2
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.20.2
+
+      - name: build network-proxy-web-site
+        run: |
+          cd network-proxy-web-site
+          npm i -g pnpm
+          pnpm config set registry https://registry.npm.taobao.org
+          pnpm config set ENTRYCLI_CDNURL=https://cdn.npm.taobao.org/dist/sentry-cli
+          pnpm config set sentrycli_cdnurl=https://cdn.npm.taobao.org/dist/sentry-cli
+          pnpm install
+          pnpm build
+
       - name: Build with Maven (network-proxy-app)
         run: |
           set MAVEN_OPTS="-Duser.language=UTF-8 -Dfile.encoding=UTF-8"
