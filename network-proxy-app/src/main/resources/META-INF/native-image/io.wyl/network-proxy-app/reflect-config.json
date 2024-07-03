@@ -5610,6 +5610,10 @@
         "parameterTypes": []
       },
       {
+        "name": "removePermissions",
+        "parameterTypes": []
+      },
+      {
         "name": "setConfigVersion",
         "parameterTypes": [
           "java.lang.String"
@@ -5792,6 +5796,10 @@
       },
       {
         "name": "removeInactive",
+        "parameterTypes": []
+      },
+      {
+        "name": "removePermissions",
         "parameterTypes": []
       },
       {
@@ -15850,6 +15858,12 @@
         ]
       },
       {
+        "name": "getOperationType",
+        "parameterTypes": [
+          "java.lang.String"
+        ]
+      },
+      {
         "name": "getStateMachine",
         "parameterTypes": []
       }
@@ -16098,6 +16112,13 @@
         ]
       },
       {
+        "name": "checkUniqueForUpdate",
+        "parameterTypes": [
+          "io.nop.orm.IOrmEntity",
+          "io.nop.core.context.IServiceContext"
+        ]
+      },
+      {
         "name": "copyForNew",
         "parameterTypes": [
           "java.util.Map",
@@ -16186,6 +16207,15 @@
         "parameterTypes": [
           "java.util.Map",
           "java.lang.String",
+          "io.nop.core.context.IServiceContext"
+        ]
+      },
+      {
+        "name": "doCopyForNew",
+        "parameterTypes": [
+          "java.util.Map",
+          "java.lang.String",
+          "java.util.function.BiConsumer",
           "io.nop.core.context.IServiceContext"
         ]
       },
@@ -16568,6 +16598,13 @@
           "java.util.Map",
           "io.nop.core.context.IServiceContext",
           "io.nop.biz.crud.BizInvocation"
+        ]
+      },
+      {
+        "name": "isAnyPropDirty",
+        "parameterTypes": [
+          "io.nop.orm.IOrmEntity",
+          "java.util.Set"
         ]
       },
       {
@@ -84560,6 +84597,26 @@
     "allDeclaredMethods": true,
     "allPublicConstructors": true,
     "allPublicMethods": true,
+    "fields": [],
+    "methods": [],
+    "name": "network.proxy.dao.entity.ProxyClients",
+    "unsafeAllocated": false
+  },
+  {
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
+    "fields": [],
+    "methods": [],
+    "name": "network.proxy.dao.entity.ProxyPortMapping",
+    "unsafeAllocated": false
+  },
+  {
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
     "fields": [
       {
         "allowUnsafeAccess": false,
@@ -84826,6 +84883,510 @@
     "allDeclaredMethods": true,
     "allPublicConstructors": true,
     "allPublicMethods": true,
+    "fields": [
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PK_PROP_IDS"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PK_PROP_NAMES"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_addTime"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_deleted"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_enabled"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_id"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_name"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_updateTime"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_addTime"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_deleted"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_enabled"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_id"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_name"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_portMapping"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_updateTime"
+      }
+    ],
+    "methods": [
+      {
+        "name": "cloneInstance",
+        "parameterTypes": []
+      },
+      {
+        "name": "getAddTime",
+        "parameterTypes": []
+      },
+      {
+        "name": "getDeleted",
+        "parameterTypes": []
+      },
+      {
+        "name": "getEnabled",
+        "parameterTypes": []
+      },
+      {
+        "name": "getId",
+        "parameterTypes": []
+      },
+      {
+        "name": "getName",
+        "parameterTypes": []
+      },
+      {
+        "name": "getPortMapping",
+        "parameterTypes": []
+      },
+      {
+        "name": "getUpdateTime",
+        "parameterTypes": []
+      },
+      {
+        "name": "newInstance",
+        "parameterTypes": []
+      },
+      {
+        "name": "orm_entityName",
+        "parameterTypes": []
+      },
+      {
+        "name": "orm_id",
+        "parameterTypes": []
+      },
+      {
+        "name": "orm_internalSet",
+        "parameterTypes": [
+          "int",
+          "java.lang.Object"
+        ]
+      },
+      {
+        "name": "orm_isPrimary",
+        "parameterTypes": [
+          "int"
+        ]
+      },
+      {
+        "name": "orm_propId",
+        "parameterTypes": [
+          "java.lang.String"
+        ]
+      },
+      {
+        "name": "orm_propIdBound",
+        "parameterTypes": []
+      },
+      {
+        "name": "orm_propName",
+        "parameterTypes": [
+          "int"
+        ]
+      },
+      {
+        "name": "orm_propValue",
+        "parameterTypes": [
+          "int"
+        ]
+      },
+      {
+        "name": "orm_propValue",
+        "parameterTypes": [
+          "int",
+          "java.lang.Object"
+        ]
+      },
+      {
+        "name": "setAddTime",
+        "parameterTypes": [
+          "java.time.LocalDateTime"
+        ]
+      },
+      {
+        "name": "setDeleted",
+        "parameterTypes": [
+          "java.lang.Boolean"
+        ]
+      },
+      {
+        "name": "setEnabled",
+        "parameterTypes": [
+          "java.lang.Boolean"
+        ]
+      },
+      {
+        "name": "setId",
+        "parameterTypes": [
+          "java.lang.Integer"
+        ]
+      },
+      {
+        "name": "setName",
+        "parameterTypes": [
+          "java.lang.String"
+        ]
+      },
+      {
+        "name": "setUpdateTime",
+        "parameterTypes": [
+          "java.time.LocalDateTime"
+        ]
+      }
+    ],
+    "name": "network.proxy.dao.entity._gen._ProxyClients",
+    "unsafeAllocated": false
+  },
+  {
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
+    "fields": [
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PK_PROP_IDS"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PK_PROP_NAMES"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_addTime"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_clientId"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_clientIp"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_clientPort"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_deleted"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_enabled"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_id"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_protocol"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_serverPort"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_ID_updateTime"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_addTime"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_client"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_clientId"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_clientIp"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_clientPort"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_deleted"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_enabled"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_id"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_protocol"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_serverPort"
+      },
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": false,
+        "name": "PROP_NAME_updateTime"
+      }
+    ],
+    "methods": [
+      {
+        "name": "cloneInstance",
+        "parameterTypes": []
+      },
+      {
+        "name": "getAddTime",
+        "parameterTypes": []
+      },
+      {
+        "name": "getClient",
+        "parameterTypes": []
+      },
+      {
+        "name": "getClientId",
+        "parameterTypes": []
+      },
+      {
+        "name": "getClientIp",
+        "parameterTypes": []
+      },
+      {
+        "name": "getClientPort",
+        "parameterTypes": []
+      },
+      {
+        "name": "getDeleted",
+        "parameterTypes": []
+      },
+      {
+        "name": "getEnabled",
+        "parameterTypes": []
+      },
+      {
+        "name": "getId",
+        "parameterTypes": []
+      },
+      {
+        "name": "getProtocol",
+        "parameterTypes": []
+      },
+      {
+        "name": "getServerPort",
+        "parameterTypes": []
+      },
+      {
+        "name": "getUpdateTime",
+        "parameterTypes": []
+      },
+      {
+        "name": "newInstance",
+        "parameterTypes": []
+      },
+      {
+        "name": "orm_entityName",
+        "parameterTypes": []
+      },
+      {
+        "name": "orm_id",
+        "parameterTypes": []
+      },
+      {
+        "name": "orm_internalSet",
+        "parameterTypes": [
+          "int",
+          "java.lang.Object"
+        ]
+      },
+      {
+        "name": "orm_isPrimary",
+        "parameterTypes": [
+          "int"
+        ]
+      },
+      {
+        "name": "orm_propId",
+        "parameterTypes": [
+          "java.lang.String"
+        ]
+      },
+      {
+        "name": "orm_propIdBound",
+        "parameterTypes": []
+      },
+      {
+        "name": "orm_propName",
+        "parameterTypes": [
+          "int"
+        ]
+      },
+      {
+        "name": "orm_propValue",
+        "parameterTypes": [
+          "int"
+        ]
+      },
+      {
+        "name": "orm_propValue",
+        "parameterTypes": [
+          "int",
+          "java.lang.Object"
+        ]
+      },
+      {
+        "name": "setAddTime",
+        "parameterTypes": [
+          "java.time.LocalDateTime"
+        ]
+      },
+      {
+        "name": "setClient",
+        "parameterTypes": [
+          "network.proxy.dao.entity.ProxyClients"
+        ]
+      },
+      {
+        "name": "setClientId",
+        "parameterTypes": [
+          "java.lang.Integer"
+        ]
+      },
+      {
+        "name": "setClientIp",
+        "parameterTypes": [
+          "java.lang.String"
+        ]
+      },
+      {
+        "name": "setClientPort",
+        "parameterTypes": [
+          "java.lang.Integer"
+        ]
+      },
+      {
+        "name": "setDeleted",
+        "parameterTypes": [
+          "java.lang.Boolean"
+        ]
+      },
+      {
+        "name": "setEnabled",
+        "parameterTypes": [
+          "java.lang.Boolean"
+        ]
+      },
+      {
+        "name": "setId",
+        "parameterTypes": [
+          "java.lang.Integer"
+        ]
+      },
+      {
+        "name": "setProtocol",
+        "parameterTypes": [
+          "java.lang.String"
+        ]
+      },
+      {
+        "name": "setServerPort",
+        "parameterTypes": [
+          "java.lang.Integer"
+        ]
+      },
+      {
+        "name": "setUpdateTime",
+        "parameterTypes": [
+          "java.time.LocalDateTime"
+        ]
+      }
+    ],
+    "name": "network.proxy.dao.entity._gen._ProxyPortMapping",
+    "unsafeAllocated": false
+  },
+  {
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
     "fields": [],
     "methods": [
       {
@@ -84851,6 +85412,88 @@
       }
     ],
     "name": "network.proxy.service.entity.PortMappingBizModel",
+    "unsafeAllocated": false
+  },
+  {
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
+    "fields": [],
+    "methods": [
+      {
+        "name": "disabled",
+        "parameterTypes": [
+          "java.lang.String",
+          "io.nop.core.context.IServiceContext"
+        ]
+      },
+      {
+        "name": "enabled",
+        "parameterTypes": [
+          "java.lang.String",
+          "io.nop.core.context.IServiceContext"
+        ]
+      },
+      {
+        "name": "setProxyPortMappingBizModel",
+        "parameterTypes": [
+          "network.proxy.service.entity.ProxyPortMappingBizModel"
+        ]
+      }
+    ],
+    "name": "network.proxy.service.entity.ProxyClientsBizModel",
+    "unsafeAllocated": false
+  },
+  {
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
+    "fields": [
+      {
+        "allowUnsafeAccess": false,
+        "allowWrite": true,
+        "name": "tunnelServer"
+      }
+    ],
+    "methods": [
+      {
+        "name": "addClientInfo",
+        "parameterTypes": [
+          "network.proxy.tunnel.server.ClientInfo"
+        ]
+      },
+      {
+        "name": "destroy",
+        "parameterTypes": []
+      },
+      {
+        "name": "disabled",
+        "parameterTypes": [
+          "java.lang.String",
+          "io.nop.core.context.IServiceContext"
+        ]
+      },
+      {
+        "name": "enabled",
+        "parameterTypes": [
+          "java.lang.String",
+          "io.nop.core.context.IServiceContext"
+        ]
+      },
+      {
+        "name": "lazyInit",
+        "parameterTypes": []
+      },
+      {
+        "name": "removeClientInfo",
+        "parameterTypes": [
+          "java.lang.String"
+        ]
+      }
+    ],
+    "name": "network.proxy.service.entity.ProxyPortMappingBizModel",
     "unsafeAllocated": false
   }
 ]

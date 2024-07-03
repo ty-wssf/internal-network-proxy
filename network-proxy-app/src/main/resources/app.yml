@@ -2,9 +2,12 @@ server:
   port: 8050
   http.gzip.enable: true
 
-solon.app:
-  group: network-proxy
-  name: network-proxy-app
+solon:
+  app:
+    group: network-proxy
+    name: network-proxy-app
+  config:
+    add: ./app.yml
 
 solon.logging.appender:
   console:
