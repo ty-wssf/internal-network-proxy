@@ -163,7 +163,7 @@ public class TunnelServerDefault extends EventListener implements TunnelServer {
 
         if (!clientInfoAll.containsKey(clientId)) {
             session.close();
-            log.warn("tunnel client not exist, clientId={} sessionId={}", clientId, session.sessionId());
+            log.warn("tunnel client not exist or not started, clientId={} sessionId={}", clientId, session.sessionId());
         } else {
             log.info("tunnel client opend, clientId={} sessionId={}", clientId, session.sessionId());
 
