@@ -30,8 +30,6 @@ jobs:
           java-version: '21.0.1' # for a specific JDK 21;
           distribution: 'graalvm' # New 'distribution' option
           cache: maven
-      - name: Build with Maven
-        run: mvn -B install --file pom.xml
 
       - name: setup node v18.20.3
         uses: actions/setup-node@v3
@@ -48,6 +46,9 @@ jobs:
           pnpm install
           pnpm build
           cp -r ./dist/ ./../network-proxy-app/src/main/resources/META-INF/resources
+
+      - name: Build with Maven
+        run: mvn -B install --file pom.xml
 
       - name: Build with Maven (network-proxy-app)
         run: |
