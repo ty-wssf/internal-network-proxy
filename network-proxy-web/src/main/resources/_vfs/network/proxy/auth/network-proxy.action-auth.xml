@@ -3,35 +3,30 @@
       xmlns:x="/nop/schema/xdsl.xdef">
 
     <site id="main">
-        <resource id="network-proxy" displayName="网络代理" icon="ion:grid-outline" resourceType="TOPM"
-                  orderNo="10000" routePath="/orm-network-proxy" component="layouts/default/index">
+        <resource id="ProxyClients-main" displayName="客户端" orderNo="10004" icon="ant-design:appstore-twotone"
+                  component="AMIS" resourceType="SUBM" url="/network/proxy/pages/ProxyClients/main.page.yaml">
             <children>
-                <resource id="ProxyClients-main" displayName="客户端" orderNo="10004" icon="ant-design:appstore-twotone"
-                          component="AMIS" resourceType="SUBM" url="/network/proxy/pages/ProxyClients/main.page.yaml">
-                    <children>
-                        <resource id="FNPT:ProxyClients:query" displayName="查询客户端" orderNo="10005"
-                                  resourceType="FNPT">
-                            <permissions>ProxyClients:query</permissions>
-                        </resource>
-                        <resource id="FNPT:ProxyClients:mutation" displayName="修改客户端" orderNo="10006"
-                                  resourceType="FNPT">
-                            <permissions>ProxyClients:mutation</permissions>
-                        </resource>
-                    </children>
+                <resource id="FNPT:ProxyClients:query" displayName="查询客户端" orderNo="10005"
+                          resourceType="FNPT">
+                    <permissions>ProxyClients:query</permissions>
                 </resource>
-                <resource id="ProxyPortMapping-main" displayName="端口映射" orderNo="10007"
-                          icon="ant-design:appstore-twotone" component="AMIS" resourceType="SUBM"
-                          url="/network/proxy/pages/ProxyPortMapping/main.page.yaml">
-                    <children>
-                        <resource id="FNPT:ProxyPortMapping:query" displayName="查询端口映射" orderNo="10008"
-                                  resourceType="FNPT">
-                            <permissions>ProxyPortMapping:query</permissions>
-                        </resource>
-                        <resource id="FNPT:ProxyPortMapping:mutation" displayName="修改端口映射" orderNo="10009"
-                                  resourceType="FNPT">
-                            <permissions>ProxyPortMapping:mutation</permissions>
-                        </resource>
-                    </children>
+                <resource id="FNPT:ProxyClients:mutation" displayName="修改客户端" orderNo="10006"
+                          resourceType="FNPT">
+                    <permissions>ProxyClients:mutation</permissions>
+                </resource>
+            </children>
+        </resource>
+        <resource id="ProxyPortMapping-main" displayName="端口映射" orderNo="10007"
+                  icon="ant-design:appstore-twotone" component="AMIS" resourceType="SUBM"
+                  url="/network/proxy/pages/ProxyPortMapping/main.page.yaml">
+            <children>
+                <resource id="FNPT:ProxyPortMapping:query" displayName="查询端口映射" orderNo="10008"
+                          resourceType="FNPT">
+                    <permissions>ProxyPortMapping:query</permissions>
+                </resource>
+                <resource id="FNPT:ProxyPortMapping:mutation" displayName="修改端口映射" orderNo="10009"
+                          resourceType="FNPT">
+                    <permissions>ProxyPortMapping:mutation</permissions>
                 </resource>
             </children>
         </resource>
