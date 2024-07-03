@@ -68,8 +68,8 @@ export default {
     signUpFormTitle: '注册',
     forgetFormTitle: '重置密码',
 
-    signInTitle: 'Nop Platform 2.0',
-    signInDesc: '是基于可逆计算理论从零开始构建、专为DSL而生的低代码平台。它在理论层面摆脱了穷举法，可以实现组件技术无法达到的软件复用度',
+    signInTitle: '内网穿透服务 1.0.0',
+    signInDesc: '一款免费、轻量级的内网穿透服务',
     policy: '我同意xxx隐私政策',
     scanSign: `扫码后，即可完成登录`,
     scanSuccess: `扫码成功，登录中`,
