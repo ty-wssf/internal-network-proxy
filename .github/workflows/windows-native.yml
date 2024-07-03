@@ -47,6 +47,7 @@ jobs:
           pnpm config set sentrycli_cdnurl=https://cdn.npm.taobao.org/dist/sentry-cli
           pnpm install
           pnpm build
+          cp -r ./dist/ ./../network-proxy-app/src/main/resources/META-INF/resources
 
       - name: Build with Maven (network-proxy-app)
         run: |
