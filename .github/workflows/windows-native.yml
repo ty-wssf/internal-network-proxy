@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: windows-native with Maven
+name: windows-native with Maven 1
 
 on:
   push:
