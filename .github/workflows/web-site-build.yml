@@ -11,8 +11,10 @@ name: network-proxy-web-site
 on:
   push:
     branches: [ "master" ]
+    paths: [ "network-proxy-web-site/**" ]
   pull_request:
     branches: [ "master" ]
+    paths: [ "network-proxy-web-site/**" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
