@@ -33,11 +33,7 @@
         <!-- 般在主模块里引入 http-server 相关组件（方便切换选择不同的方案） -->
         <dependency>
             <groupId>org.noear</groupId>
-            <artifactId>solon-lib</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.noear</groupId>
-            <artifactId>solon.web.staticfiles</artifactId>
+            <artifactId>solon-api</artifactId>
         </dependency>
 
         <dependency>
