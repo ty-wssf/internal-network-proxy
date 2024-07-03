@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: network-proxy-web-site-artifacts
-          path: network-proxy-web-site/packages/dist/
+          path: network-proxy-web-site/packages/nop-site/dist/
           if-no-files-found: error # 如果未找到文件，则报错
 
 
