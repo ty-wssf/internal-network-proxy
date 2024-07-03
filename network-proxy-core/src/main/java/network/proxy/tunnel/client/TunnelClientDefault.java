@@ -115,7 +115,7 @@ public class TunnelClientDefault extends EventListener implements TunnelClient {
             client.config(clientConfigHandler);
         }
 
-        clientSession = client.listen(this).openOrThow();
+        clientSession = client.listen(this).open();
 
         return this;
     }

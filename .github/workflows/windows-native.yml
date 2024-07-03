@@ -40,11 +40,25 @@ jobs:
           mvn clean package --file pom.xml --no-transfer-progress
           mvn clean native:compile -P native --file pom.xml --no-transfer-progress
 
-      - name: Upload artifacts
+      - name: Build with Maven (network-proxy-client)
+        run: |
+          set MAVEN_OPTS="-Duser.language=UTF-8 -Dfile.encoding=UTF-8"
+          cd ../network-proxy-client
+          mvn clean package --file pom.xml --no-transfer-progress
+          mvn clean native:compile -P native --file pom.xml --no-transfer-progress
+
+      - name: Upload artifacts network-proxy-app
         uses: actions/upload-artifact@v3
         with:
           name: network-proxy-app-artifacts
           path: network-proxy-app/target/
+          if-no-files-found: error # 如果未找到文件，则报错
+
+      - name: Upload artifacts network-proxy-client
+        uses: actions/upload-artifact@v3
+        with:
+          name: network-proxy-client-artifacts
+          path: network-proxy-client/target/
           if-no-files-found: error # 如果未找到文件，则报错
 
 
