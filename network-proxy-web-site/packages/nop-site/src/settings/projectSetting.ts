@@ -65,13 +65,13 @@ const setting: ProjectConfig = {
   // 头部配置
   headerSetting: {
     // 背景色
-    bgColor: HEADER_PRESET_BG_COLOR_LIST[0],
+    bgColor: HEADER_PRESET_BG_COLOR_LIST[1],
     // 固定头部
     fixed: true,
     // 是否显示顶部
     show: true,
     // 主题
-    theme: ThemeEnum.LIGHT,
+    theme: ThemeEnum.DARK,
     // 开启锁屏功能
     useLockPage: true,
     // 显示全屏按钮
@@ -104,7 +104,7 @@ const setting: ProjectConfig = {
     // 菜单宽度
     menuWidth: 210,
     // 菜单模式
-    mode: MenuModeEnum.INLINE,
+    mode: MenuModeEnum.HORIZONTAL,
     // 菜单类型
     type: MenuTypeEnum.TOP_MENU,
     // 菜单主题
