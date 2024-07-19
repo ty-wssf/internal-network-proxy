@@ -68,8 +68,8 @@ export default {
     signUpFormTitle: '注册',
     forgetFormTitle: '重置密码',
 
-    signInTitle: '内网穿透服务 1.0.0',
-    signInDesc: '一款免费、轻量级的内网穿透服务',
+    signInTitle: '汇聚服务 1.0.0',
+    signInDesc: '汇聚服务',
     policy: '我同意xxx隐私政策',
     scanSign: `扫码后，即可完成登录`,
     scanSuccess: `扫码成功，登录中`,
